@@ -20,4 +20,4 @@
 /config/database.yml
 /config/constants.yml
 /files
-/vendor/bandle
+/vendor/bundle
