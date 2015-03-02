@@ -1,0 +1,2 @@
+class QuestionAttachmentsController < ApplicationController
+end
