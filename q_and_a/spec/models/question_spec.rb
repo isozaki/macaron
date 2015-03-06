@@ -222,9 +222,9 @@ describe Question, '質問を検索するとき' do
       title: 'タイトル1',
       question: '質問内容1',
       charge: '担当者A',
-      priirity: 2,
+      priority: 2,
       status: 1,
-      limit_datetime: "2015-03-02 16:26:42"
+      limit_datetime: "2015-03-02 16:26:42",
       created_user_name: "質問者A"
     )
 
@@ -232,10 +232,10 @@ describe Question, '質問を検索するとき' do
       :question,
       title: 'タイトル2',
       question: '質問内容2',
-      charge: '担当者B',
-      priirity: 2,
+      charge: '担当者A',
+      priority: 2,
       status: 2,
-      limit_datetime: "2015-03-05 16:26:42"
+      limit_datetime: "2015-03-05 16:26:42",
       created_user_name: "質問者B"
     )
   end
@@ -248,43 +248,43 @@ describe Question, '質問を検索するとき' do
     end
 
     it do
-      expect(Staff.search_doctor(title: 'タイトル1').count).to eq 1
+      expect(Question.search_question(title: 'タイトル1').count).to eq 1
     end
   end
 
   context '担当者が指定されているとき' do
     it do
       expect do
-        Staff.search_doctor(charge: '担当者A')
+        Question.search_question(charge: '担当者A')
       end.not_to raise_error
     end
 
     it do
-      expect(Staff.search_doctor(charge: '担当者A').count).to eq 1
+      expect(Question.search_question(charge: '担当者A').count).to eq 2
     end
   end
 
   context 'ステータスが指定されているとき' do
     it do
       expect do
-        Staff.search_doctor(status: '1')
+        Question.search_question(status: '1')
       end.not_to raise_error
     end
 
     it do
-      expect(Staff.search_doctor(status: '1').count).to eq 1
+      expect(Question.search_question(status: '1').count).to eq 1
     end
   end
 
   context '回答期限が指定されているとき' do
     it do
       expect do
-        Staff.search_doctor(limit_datetime: '2015-03-04 00:00:00')
+        Question.search_question(limit_datetime: '2015-03-04 00:00:00')
       end.not_to raise_error
     end
 
     it do
-      expect(Staff.search_doctor(limit_datetime: '2015-03-04 00:00:00').count).to eq 1
+      expect(Question.search_question(limit_datetime: '2015-03-04 00:00:00').count).to eq 1
     end
   end
 end
