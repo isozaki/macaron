@@ -5,7 +5,7 @@ class CreateAnswers < ActiveRecord::Migration
       t.text :answer, null:false
       t.integer :deleted, null:false, default: 0
       t.string :created_user_name, null: false, limit: 64
-      t.string :updated_user_name, null: false, limit: 64
+      t.string :updated_user_name, limit: 64
 
       t.timestamps
     end

@@ -1,0 +1,28 @@
+<table>
+  <tbody>
+    <tr>
+      <td>質問者名</td>
+      <td><%= f.text_field(:created_user_name) %></td>
+    </tr>
+    <tr>
+      <td>タイトル</td>
+      <td><%= f.text_field(:title, class: 'input-maxsize') %></td>
+    </tr>
+    <tr>
+      <td>質問内容</td>
+      <td><%= f.text_area(:question) %></td>
+    </tr>
+    <tr>
+      <td>担当者</td>
+      <td><%= f.text_field(:charge) %></td>
+    </tr>
+    <tr>
+      <td>優先度</td>
+      <td><%= f.select(:priority, options_for_select([["低", 1], ["中", 2], ["高", 3]])) %></td>
+    </tr>
+    <tr>
+      <td>回答期限</td>
+      <td><%= f.text_field(:limit_datetime, class: 'input-small datepicker') %></td>
+    </tr>
+  </tbody>
+</table>
