@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  resources :questions do
-    resources :answers, only: [:new, :edit, :destory]
-  end
+  resources :questions
+
+  resources :answers, only: [:new, :edit, :destory]
 
   root :to => 'questions#index'
 

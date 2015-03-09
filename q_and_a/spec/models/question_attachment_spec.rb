@@ -87,44 +87,4 @@ describe QuestionAttachment do
       end
     end
   end
-
-  describe 'mkdirについて' do
-    let(:today) { Date.today }
-    let(:path) { 'path' }
-
-    context '指定したパスが存在する場合' do
-      before(:each) do
-        expect(FileTest).to receive(:exists?).and_return(true)
-        expect(File).to receive(:join).and_return(path)
-      end
-
-      it 'ディレクトリを作成しないこと' do
-        expect(FileUtils).not_to receive(:mkdir_p)
-        expect(QuestionAttachment.mkdir(today)).to eq(path)
-      end
-    end
-
-    context '指定したパスが存在しない場合' do
-      before(:each) do
-        allow(FileUtils).to receive(:mkdir_p)
-        expect(FileTest).to receive(:exists?).and_return(false)
-        expect(File).to receive(:join).and_return(path)
-      end
-
-      it 'ディレクトリを作成すること' do
-        expect(FileUtils).to receive(:mkdir_p)
-        expect(QuestionAttachment.mkdir(today)).to eq(path)
-      end
-    end
-  end
-
-  describe 'file_pathについて' do
-    let(:path) { 'path' }
-
-    it '正しい値を返すこと' do
-      @question_attachment = FactoryGirl.create(:question_attachment)
-      expect(File).to receive(:join).and_return(path)
-      expect(@question_attachment.file_path).to eq(path)
-    end
-  end
 end

@@ -4,7 +4,7 @@ describe "questions/new.html.erb" do
   context 'エラーがないとき' do
     before(:each) do
       @question = Question.new
-      assign(:question, @quetion)
+      assign(:question, @question)
     end
 
     it '正しく表示されること' do

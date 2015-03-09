@@ -1,3 +1,21 @@
 // Place all the styles related to the questions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+#question {
+    .search_area {
+        border: solid;
+        width: 1000px;
+    }
+    .list_area {
+        th {
+            border: solid;
+    }
+        td {
+            max-width: 200px;
+            width: auto;
+            text-align: center;
+            border: solid;
+            border-width: 1px;
+        }
+  }
+}

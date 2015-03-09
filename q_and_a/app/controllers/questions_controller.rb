@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   def index
-    @question = Question.search_question(params)
+    @questions = Question.search_question(params)
   end
 
   def show
