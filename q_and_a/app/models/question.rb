@@ -17,12 +17,6 @@
 #
 
 class Question < ActiveRecord::Base
-  PRIORITY = {
-    '低' => 1,
-    '中' => 2,
-    '高' => 3
-  }
-
   validates(:title, presence: true, length: { maximum: 40 })
   validates(:question, presence: true)
   validates(:charge, presence: true, length: { maximum: 64 })

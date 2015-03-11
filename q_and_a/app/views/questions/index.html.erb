@@ -1,4 +1,4 @@
-<div id="question">
+<div id="question_index">
   <h2>質問一覧</h2></ br>
   <h3><%= link_to('新規登録', new_question_url)%></h3>
   <div class="search_area">
@@ -9,7 +9,10 @@
       担当者：
       <%= text_field_tag(:charge, params[:charge], style: "width:100px;") %>
       ステータス：
-      <%= select_tag(:status, options_for_select([["回答待ち", 1], ["回答済み", 2], ["差し戻し", 3], ["検討中", 4], ["完了", 5], ["却下", 6]], params[:status]), include_blank: true, style: "width:100px;") %>
+      <%= select_tag(:status,
+                     options_for_select(status_select_from, params[:status]),
+                     include_blank: true,
+                     style: "width:100px;") %>
       回答期限：
       <%= text_field_tag(:limit_datetime, params[:limit_datetime], style: "width:100px;") %>
       <%= submit_tag('検索', class: 'btn') %>
@@ -33,13 +36,13 @@
       <tbody>
       <% @questions.each do |question| %>
         <tr>
-          <td><%= question.id %></td>
-          <td><%= question.title %></td>
-          <td><%= question.charge %></td>
-          <td><%= question.priority %></td>
-          <td><%= question.limit_datetime.strftime('%Y/%m/%d') %></td>
-          <td><%= question.status %></td>
-          <td>
+          <td style="width: 20px;"><%= question.id %></td>
+          <td style="width: 300px;"><%= question.title %></td>
+          <td style="width: 100px;" ><%= question.charge %></td>
+          <td style="width: 50px;"><%= priority_name(question.priority) %></td>
+          <td style="width: 100px;"><%= question.limit_datetime.strftime('%Y/%m/%d') %></td>
+          <td style="width: 50px;" ><%= question.status %></td>
+          <td style="width: 100px;">
             <%= link_to('詳細', question_path(question)) %> ｜
             <%= link_to('削除', question_path(id: question.id, confirm_delete: 'true')) %>
           </td>

@@ -1,1 +1,42 @@
-質問詳細
+<div id="question_show">
+  <h2>質問詳細</h2>
+  <%= link_to('編集', edit_question_url(@question)) %>
+  <div class="question_area">
+    <table>
+      <tbody>
+        <tr>
+          <td class="title">タイトル</td>
+          <td><%= @question.title %></td>
+        </tr>
+        <tr>
+          <td class="title" style="height: 200px;">質問内容</td>
+          <td><%= @question.question %></td>
+        </tr>
+        <tr>
+          <td class="title">担当者</td>
+          <td><%= @question.charge %></td>
+        </tr>
+        <tr>
+          <td class="title">優先度</td>
+          <td><%= priority_name(@question.priority) %></td>
+        </tr>
+        <tr>
+          <td class="title">ステータス</td>
+          <td><%= status_name(@question.status) %></td>
+        </tr>
+        <tr>
+          <td class="title">回答期限</td>
+          <td><%= @question.limit_datetime.strftime('%Y/%m/%d') %></td>
+        </tr>
+        <tr>
+          <td class="title">質問者</td>
+          <td><%= @question.created_user_name  %></td>
+        </tr>
+        <tr>
+          <td class="title">質問日</td>
+          <td><%= @question.created_at.in_time_zone('Tokyo').strftime('%Y/%m/%d') %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

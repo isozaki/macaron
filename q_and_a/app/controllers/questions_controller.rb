@@ -4,6 +4,16 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    if params[:id].blank?
+      redirect_to(questions_url, alert: '対象が指定されていません')
+      return
+    end
+
+    @question = Question.where(id: params[:id]).first
+    unless @question
+      redirect_to(questions_url, alert: '対象が見つかりません')
+      return
+    end
   end
 
   def new
@@ -12,7 +22,6 @@ class QuestionsController < ApplicationController
 
   def create
     @question = Question.new(question_params)
-    # @question.updated_user_name = params[:created_user_name]
     
     ActiveRecord::Base.transaction do
       fail ActiveRecord::RecordInvalid.new(@question) unless @question.valid?

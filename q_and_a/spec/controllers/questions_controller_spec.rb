@@ -13,10 +13,60 @@ RSpec.describe QuestionsController, :type => :controller do
     end
 
     it { expect(response).to render_template(:index) }
-    # it { expect(assigns(:questions)).to eq @questions }
+    it { expect(assigns(:questions)).to eq @questions }
   end
 
   describe "GET show" do
+    before(:each) do
+      @question = mock_model(Question)
+      @questions = []
+    end
+
+    context '対象が指定されていないとき' do
+      before(:each) do
+        get :show, id: ''
+      end
+
+      it '質問一覧画面が表示されること' do
+        expect(response).to redirect_to(questions_url)
+      end
+
+      it 'アラートが表示されること' do
+        expect(flash[:alert]).to eq '対象が指定されていません'
+      end
+    end
+
+    context '対象が存在しないとき' do
+      before(:each) do
+        allow(Question).to receive(:where).with(id: 0.to_s).and_return(@questions)
+        expect(@questions).to receive(:first).and_return(nil)
+
+        get :show, id: 0
+      end
+
+      it '質問一覧画面が表示されること' do
+        expect(response).to redirect_to(questions_url)
+      end
+
+      it 'アラートが表示されること' do
+        expect(flash[:alert]).to eq '対象が見つかりません'
+      end
+    end
+
+    context '対象が存在するとき' do
+      before(:each) do
+        allow(Question).to receive(:where).with(id: @question.id.to_s).and_return(@questions)
+        expect(@questions).to receive(:first).and_return(@question)
+
+        get :show, id: @question.id
+      end
+
+      it '質問詳細画面が表示されること' do
+        expect(response).to render_template(:show)
+      end
+
+      it { expect(assigns(:question)).to eq @question }
+    end
   end
 
   describe "GET new" do
