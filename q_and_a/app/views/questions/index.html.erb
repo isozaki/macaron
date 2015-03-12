@@ -14,7 +14,7 @@
                      include_blank: true,
                      style: "width:100px;") %>
       回答期限：
-      <%= text_field_tag(:limit_datetime, params[:limit_datetime], style: "width:100px;") %>
+      <%= date_field_tag(:limit_datetime, params[:limit_datetime], style: "width:150px;") %>
       <%= submit_tag('検索', class: 'btn') %>
       <%= button_tag('リセット', type: :reset, class: 'btn') %>
     <% end %>
@@ -41,7 +41,7 @@
           <td style="width: 100px;" ><%= question.charge %></td>
           <td style="width: 50px;"><%= priority_name(question.priority) %></td>
           <td style="width: 100px;"><%= question.limit_datetime.strftime('%Y/%m/%d') %></td>
-          <td style="width: 50px;" ><%= question.status %></td>
+          <td style="width: 100px;" ><%= status_name(question.status) %></td>
           <td style="width: 100px;">
             <%= link_to('詳細', question_path(question)) %> ｜
             <%= link_to('削除', question_path(id: question.id, confirm_delete: 'true')) %>

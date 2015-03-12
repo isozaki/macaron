@@ -10,7 +10,7 @@
         </tr>
         <tr>
           <td class="title" style="height: 200px;">質問内容</td>
-          <td><%= @question.question %></td>
+          <td><%= simple_format(@question.question)%></td>
         </tr>
         <tr>
           <td class="title">担当者</td>
