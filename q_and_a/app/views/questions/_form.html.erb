@@ -1,12 +1,17 @@
 <table>
   <tbody>
     <tr>
-      <td>質問者名</td>
-      <td><%= f.text_field(:created_user_name) %></td>
+      <% if params[:action] == 'new' %>
+        <td>質問者名</td>
+        <td><%= f.text_field(:created_user_name) %></td>
+      <% elsif params[:action] == 'edit' %>
+        <td>更新者名</td>
+        <td><%= f.text_field(:updated_user_name) %></td>
+      <% end %>
     </tr>
     <tr>
       <td>タイトル</td>
-      <td><%= f.text_field(:title, class: 'input-maxsize') %></td>
+      <td><%= f.text_field(:title) %></td>
     </tr>
     <tr>
       <td>質問内容</td>
@@ -22,7 +27,7 @@
     </tr>
     <tr>
       <td>回答期限</td>
-      <td><%= f.text_field(:limit_datetime, class: 'input-small datepicker') %></td>
+      <td><%= f.date_field(:limit_datetime) %></td>
     </tr>
   </tbody>
 </table>
