@@ -42,9 +42,11 @@
           <td style="width: 50px;"><%= priority_name(question.priority) %></td>
           <td style="width: 100px;"><%= question.limit_datetime.strftime('%Y/%m/%d') %></td>
           <td style="width: 100px;" ><%= status_name(question.status) %></td>
-          <td style="width: 100px;">
-            <%= link_to('詳細', question_path(question)) %> ｜
-            <%= link_to('削除', question_path(id: question.id, confirm_delete: 'true')) %>
+          <td style="width: 130px;">
+            <%= form_for(question, url: question_path(question), method: 'delete') do |f| %>
+              <%= link_to('詳細', question_path(question)) %> ｜
+              <%= f.submit('削除する') %>
+            <% end %>
           </td>
         <tr>
       <% end %>

@@ -65,6 +65,18 @@ class QuestionsController < ApplicationController
      render(:edit)
   end
 
+  def destroy
+    @question = Question.find_by_id(params[:id])
+
+    ActiveRecord::Base.transaction do
+      @question.destroy
+
+      redirect_to(questions_url, notice: '質問を削除しました')
+    end
+  rescue => e
+     redirect_to(questions_url, alert: '質問の削除に失敗しました')
+  end
+
   def question_params
     return {} if params[:question].blank?
 

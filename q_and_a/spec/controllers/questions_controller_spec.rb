@@ -269,4 +269,41 @@ RSpec.describe QuestionsController, :type => :controller do
       it { expect(flash[:alert]).to eq '対象が見つかりません' }
     end
   end
+  
+  describe 'DELETE destroy' do
+    before(:each) do
+      @question = mock_model(Question, id: 1)
+    end
+
+    context '成功するとき' do
+      before(:each) do
+        expect(Question).to receive(:find_by_id).and_return @question
+
+        delete :destroy, id: @question.id
+      end
+
+      it '質問一覧画面にリダイレクトされること' do
+        expect(response).to redirect_to(questions_url)
+      end
+
+      it '削除完了メッセージが表示されること' do
+        expect(flash[:notice]).to eq('質問を削除しました')
+      end
+    end
+
+    context '失敗するとき' do
+      before(:each) do
+        expect(Question).to receive(:find_by_id).and_return @question
+        expect(@question).to receive(:destroy).and_raise
+
+        delete :destroy, id: @question.id
+      end
+
+      it '質問一覧画面に遷移すること' do
+        expect(response).to redirect_to(questions_url)
+      end
+
+      it { expect(flash[:alert]).to eq('質問の削除に失敗しました') }
+    end
+  end
 end
