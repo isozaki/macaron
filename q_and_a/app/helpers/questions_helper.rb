@@ -1,31 +1,38 @@
 module QuestionsHelper
   def priority_name(priority)
-    { 1 => '低', 2 => '中', 3 => '高' }[priority]
+    { Question::PRIORITY[:low] => t('priority.low'),
+      Question::PRIORITY[:mid] => t('priority.mid'),
+      Question::PRIORITY[:high] => t('priority.high')
+    }[priority]
   end
 
   def status_name(status)
     { 
-      1 => '回答待ち',
-      2 => '回答済み',
-      3 => '差し戻し',
-      4 => '検討中',
-      5 => '完了',
-      6 => '却下'
+      Question::STATUS[:unanswered] => t('status.unanswered'),
+      Question::STATUS[:answered] => t('status.answered'),
+      Question::STATUS[:remand] => t('status.remand'),
+      Question::STATUS[:review] => t('status.review'),
+      Question::STATUS[:completion] => t('status.completion'),
+      Question::STATUS[:dismissal] => t('status.dismissal')
     }[status]
   end
 
   def priority_select_from
-    [["低", 1], ["中", 2], ["高", 3]]
+    [
+      [t('priority.low'), Question::PRIORITY[:low]],
+      [t('priority.mid'), Question::PRIORITY[:mid]],
+      [t('priority.high'), Question::PRIORITY[:high]]
+    ]
   end
 
   def status_select_from
     [
-      ["回答待ち", 1],
-      ["回答済み", 2],
-      ["差し戻し", 3],
-      ["検討中", 4],
-      ["完了", 5],
-      ["却下", 6]
+      [t('status.unanswered'), Question::STATUS[:unanswered]],
+      [t('status.answered'), Question::STATUS[:answered]],
+      [t('status.remand'), Question::STATUS[:remand]],
+      [t('status.review'), Question::STATUS[:review]],
+      [t('status.completion'), Question::STATUS[:completion]],
+      [t('status.dismissal'), Question::STATUS[:dismissal]]
     ]
   end
 end

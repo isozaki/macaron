@@ -17,6 +17,21 @@
 #
 
 class Question < ActiveRecord::Base
+  PRIORITY = {
+    low: 1,
+    mid: 2,
+    high: 3,
+  }
+
+  STATUS = {
+    unanswered: 1,
+    answered: 2,
+    remand: 3,
+    review: 4,
+    completion: 5,
+    dismissal: 6
+  }
+
   validates(:title, presence: true, length: { maximum: 40 })
   validates(:question, presence: true)
   validates(:charge, presence: true, length: { maximum: 64 })
