@@ -77,6 +77,38 @@ class QuestionsController < ApplicationController
      redirect_to(questions_url, alert: '質問の削除に失敗しました')
   end
 
+  def edit_status
+    if params[:id].blank?
+      redirect_to(questions_url, alert: '対象が指定されていません')
+      return
+    end
+
+    @question = Question.where(id: params[:id]).first
+    unless @question
+      redirect_to(questions_url, alert: '対象が見つかりません')
+    end
+  end
+
+  def update_status
+    if params[:id].blank?
+      redirect_to(questions_url, alert: '対象が指定されていません')
+      return
+    end
+    @question = Question.where(id: params[:id]).first
+    unless @question
+      redirect_to(questions_url, alert: '対象が見つかりません')
+      return
+    end
+
+    ActiveRecord::Base.transaction do
+      @question.update!(question_params)
+    end
+
+    redirect_to(question_url(@question), notice: 'ステータスを更新しました')
+  rescue ActiveRecord::RecordInvalid => e
+     render(:edit)
+  end
+
   def question_params
     return {} if params[:question].blank?
 

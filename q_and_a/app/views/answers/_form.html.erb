@@ -1,0 +1,17 @@
+<table>
+  <tbody>
+    <tr>
+      <% if params[:action] == 'new' %>
+        <td>回答者名</td>
+        <td><%= f.text_field(:created_user_name) %></td>
+      <% elsif params[:action] == 'edit' %>
+        <td>更新者名</td>
+        <td><%= f.text_field(:updated_user_name) %></td>
+      <% end %>
+    </tr>
+    <tr>
+      <td>回答内容</td>
+      <td><%= f.text_area(:answer) %></td>
+    </tr>
+  </tbody>
+</table>

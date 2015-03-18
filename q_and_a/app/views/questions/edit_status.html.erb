@@ -1,0 +1,21 @@
+<h2>ステータス変更</h2>
+<div id="form_area">
+  <%= form_for(@question, url: question_path(@question), method: :patch) do |f| %>
+    <table>
+      <tbody>
+        <tr>
+          <td>更新者名</td>
+          <td><%= f.text_field(:updated_user_name) %></td>
+        </tr>
+        <tr>
+          <td>ステータス</td>
+          <td><%= f.select(:status, options_for_select(status_select_from)) %></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="action">
+      <%= link_to('更新しない', question_path(@question)) %>
+      <%= submit_tag('更新', data: { confirm: "入力した内容を更新します。\nよろしいですか？" }) %>
+    </div>
+  <% end %>
+</div>

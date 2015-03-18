@@ -1,7 +1,14 @@
 Rails.application.routes.draw do
-  resources :questions
+  resources :questions do
+    member do
+      get :edit_status
+      patch :update_status
+    end
 
-  resources :answers, only: [:new, :edit, :destory]
+    resources :answers, only: [:new, :create, :edit, :update, :destory]
+  end
+
+  # resources :answers, only: [:new, :create, :edit, :update, :destory]
 
   root :to => 'questions#index'
 
