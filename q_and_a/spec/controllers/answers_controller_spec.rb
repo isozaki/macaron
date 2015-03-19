@@ -200,4 +200,43 @@ describe AnswersController do
       it { expect(flash[:alert]).to eq '対象が見つかりません' }
     end
   end
+
+  describe 'DELETE destroy' do
+    before(:each) do
+      @question = mock_model(Question, id: 1)
+      expect(Question).to receive(:find_by_id).and_return(@question)
+      @answer = mock_model(Answer, id: 1)
+    end
+
+    context '成功するとき' do
+      before(:each) do
+        expect(Answer).to receive(:find_by_id).and_return @answer
+
+        delete :destroy, question_id: @question.id, id: @answer.id
+      end
+
+      it '質問詳細画面にリダイレクトされること' do
+        expect(response).to redirect_to(question_url(@question))
+      end
+
+      it '削除完了メッセージが表示されること' do
+        expect(flash[:notice]).to eq('回答を削除しました')
+      end
+    end
+
+    context '失敗するとき' do
+      before(:each) do
+        expect(Answer).to receive(:find_by_id).and_return @answer
+        expect(@answer).to receive(:destroy).and_raise
+
+        delete :destroy, question_id: @question.id, id: @answer.id
+      end
+
+      it '質問一覧画面に遷移すること' do
+        expect(response).to redirect_to(question_url(@answer))
+      end
+
+      it { expect(flash[:alert]).to eq('質問の削除に失敗しました') }
+    end
+  end
 end

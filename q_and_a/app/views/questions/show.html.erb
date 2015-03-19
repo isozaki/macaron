@@ -60,7 +60,10 @@
           <td style="width: 100px;" ><%= answer.created_user_name %></td>
           <td style="width: 100px;"><%= answer.created_at.strftime('%Y/%m/%d') %></td>
           <td style="width: 130px;">
-            <%= link_to('編集', edit_question_answer_url(@question, answer)) %>
+            <%= form_for(answer, url: question_answer_path(@question, answer), method: 'delete') do |f| %>
+              <%= link_to('編集', edit_question_answer_url(@question, answer)) %> ｜
+              <%= f.submit('削除する') %>
+            <% end %>
           </td>
         <tr>
       <% end %>

@@ -5,10 +5,8 @@ Rails.application.routes.draw do
       patch :update_status
     end
 
-    resources :answers, only: [:new, :create, :edit, :update, :destory]
+    resources :answers, only: [:new, :create, :edit, :update, :destroy]
   end
-
-  # resources :answers, only: [:new, :create, :edit, :update, :destory]
 
   root :to => 'questions#index'
 
