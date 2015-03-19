@@ -1,2 +1,10 @@
-<h1>Answers#edit</h1>
-<p>Find me in app/views/answers/edit.html.erb</p>
+<h2>回答更新</h2>
+<div id="form_area">
+  <%= form_for(@answer, url: question_answer_path(@question, @answer), method: :patch) do |f| %>
+    <%= render('form', f: f) %>
+    <div class="action">
+      <%= link_to('戻る', questions_path) %>
+      <%= submit_tag('更新', data: { confirm: "入力した内容を更新します。\nよろしいですか？" }) %>
+    </div>
+  <% end %>
+</div>

@@ -6,7 +6,10 @@ RSpec.describe "questions/show.html.erb", :type => :view do
     allow(@question.limit_datetime).to receive(:strftime)
     allow(@question.created_at).to receive(:in_time_zone)
     allow(@question.created_at).to receive(:strftime)
+    @answers = mock_model(Answer)
+    expect(@answers).to receive(:each).and_return(@answers)
     assign(:question, @question)
+    assign(:answers, @answers)
   end
 
   context '詳細画面として表示するとき' do

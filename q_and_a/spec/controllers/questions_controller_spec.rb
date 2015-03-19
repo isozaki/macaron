@@ -20,6 +20,7 @@ RSpec.describe QuestionsController, :type => :controller do
     before(:each) do
       @question = mock_model(Question)
       @questions = []
+      @answers = mock_model(Answer)
     end
 
     context '対象が指定されていないとき' do

@@ -20,6 +20,39 @@ class AnswersController < ApplicationController
   end
 
   def edit
+    @question = Question.find_by_id(params[:question_id])
+
+    if params[:id].blank?
+      redirect_to(question_url(@question), alert: '対象が指定されていません')
+      return
+    end
+
+    @answer = Answer.where(id: params[:id]).first
+    unless @answer
+      redirect_to(question_url(@question), alert: '対象が見つかりません')
+    end
+  end
+
+  def update
+    @question = Question.find_by_id(params[:question_id])
+
+    if params[:id].blank?
+      redirect_to(question_url(@question), alert: '対象が指定されていません')
+      return
+    end
+    @answer = Answer.where(id: params[:id]).first
+    unless @answer
+      redirect_to(question_url(@question), alert: '対象が見つかりません')
+      return
+    end
+
+    ActiveRecord::Base.transaction do
+      @answer.update!(answer_params)
+    end
+
+    redirect_to(edit_status_question_url(@question), notice: '回答を更新しました')
+  rescue ActiveRecord::RecordInvalid => e
+     render(:edit)
   end
 
   def answer_params

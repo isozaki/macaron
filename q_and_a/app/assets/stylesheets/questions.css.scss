@@ -33,6 +33,16 @@
             width:100px;
         }
     }
-    .answer_area {
+    .answers_area {
+        th {
+            height: auto;
+            border: solid;
+        }
+        td {
+            width: auto;
+            text-align: center;
+            border: solid;
+            border-width: 1px;
+        }
     }
 }

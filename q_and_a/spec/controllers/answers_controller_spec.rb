@@ -65,5 +65,139 @@ describe AnswersController do
   end
 
   describe "GET edit" do
+    before(:each) do
+      @question = mock_model(Question, id: 1)
+      allow(Question).to receive(:find_by_id).and_return(@question)
+      @answer = mock_model(Answer, id: 1)
+      @answers = []
+    end
+
+    context '対象が指定されていないとき' do
+      before(:each) do
+        get :edit, question_id: @question.id, id: ''
+      end
+
+      it '質問詳細画面が表示されること' do
+        expect(response).to redirect_to(question_url(@question))
+      end
+
+      it 'アラートが表示されること' do
+        expect(flash[:alert]).to eq '対象が指定されていません'
+      end
+    end
+
+    context '対象が存在しないとき' do
+      before(:each) do
+        expect(Answer).to receive(:where).with(id: 0.to_s).and_return(@answers)
+        expect(@answers).to receive(:first).and_return(nil)
+
+        get :edit, question_id: @question.id, id: 0
+      end
+
+      it '質問一覧画面が表示されること' do
+        expect(response).to redirect_to(question_url(@question))
+      end
+
+      it 'アラートが表示されること' do
+        expect(flash[:alert]).to eq '対象が見つかりません'
+      end
+    end
+
+    context '対象が存在するとき' do
+      before(:each) do
+        expect(Answer).to receive(:where).with(id: @answer.id.to_s).and_return(@answers)
+        expect(@answers).to receive(:first).and_return(@answer)
+
+        get :edit, question_id: @question.id, id: @answer.id
+      end
+
+      it '質問編集画面が表示されること' do
+        expect(response).to render_template(:edit)
+      end
+
+      it { expect(assigns(:answer)).to eq @answer }
+    end
+  end
+
+  describe "PATAH update" do
+    before(:each) do
+      @question = mock_model(Question, id: 1)
+      allow(Question).to receive(:find_by_id).and_return(@question)
+      @answer = mock_model(Answer, id: 1)
+    end
+
+    context '成功するとき' do
+      before(:each) do
+        allow(Answer).to receive_message_chain(:where, :first).and_return(@answer)
+        expect(@answer).to receive(:update!)
+          .with('answer' => '回答',
+                'updated_user_name' => '更新者A')
+
+          patch(:update, question_id: @question.id,  id: @answer.id, answer: {
+          answer: '回答',
+          updated_user_name: '更新者A'
+        })
+      end
+
+      it 'ステータス変更画面へ遷移すること' do
+        expect(response).to redirect_to(edit_status_question_url(@question))
+      end
+
+      it { expect(flash[:notice]).to eq '回答を更新しました' }
+    end
+
+    context '失敗するとき' do
+      before(:each) do
+        allow(Answer).to receive_message_chain(:where, :first).and_return(@answer)
+        expect(@answer).to receive(:update!)
+          .with('answer' => '回答',
+                'updated_user_name' => '更新者A')
+          .and_raise(ActiveRecord::RecordInvalid.new(@question))
+
+        patch(:update, question_id: @question.id, id: @answer.id, answer: {
+          answer: '回答',
+          updated_user_name: '更新者A'
+        })
+      end
+
+      it '質問編集画面を再表示すること' do
+        expect(response).to render_template(:edit)
+      end
+
+      it { expect(assigns(:answer)).to eq @answer }
+    end
+
+    context '対象が指定されていないとき' do
+      before(:each) do
+
+        patch(:update, question_id: @question.id,  id: '', answer: {
+          answer: '回答',
+          updated_user_name: '更新者'
+        })
+      end
+
+      it '質問詳細画面に遷移すること' do
+        expect(response).to redirect_to(question_url(@question))
+      end
+
+      it { expect(flash[:alert]).to eq '対象が指定されていません' }
+    end
+
+    context '対象が存在しないとき' do
+      before(:each) do
+        allow(Answer).to receive_message_chain(:where, :first).and_return(nil)
+
+        patch(:update, question_id: @question.id, id: '0', answer: {
+            answer: '回答',
+            updated_user_name: '更新者A'
+        })
+      end
+
+      it '質問詳細画面に遷移すること' do
+        expect(response).to redirect_to(question_url(@question))
+      end
+
+      it { expect(flash[:alert]).to eq '対象が見つかりません' }
+    end
   end
 end

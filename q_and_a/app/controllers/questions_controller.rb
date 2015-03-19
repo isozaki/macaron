@@ -14,6 +14,8 @@ class QuestionsController < ApplicationController
       redirect_to(questions_url, alert: '対象が見つかりません')
       return
     end
+
+    @answers = Answer.where(question_id: params[:id]).order('created_at ASC')
   end
 
   def new

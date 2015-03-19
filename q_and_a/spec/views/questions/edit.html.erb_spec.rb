@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "questions/edit.html.erb", :type => :view do
-    context 'エラーがないとき' do
+  context 'エラーがないとき' do
     before(:each) do
       @question = mock_model(Question)
       assign(:question, @question)

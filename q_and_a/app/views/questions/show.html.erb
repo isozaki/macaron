@@ -41,5 +41,31 @@
   </div>
   <%= link_to("回答する", new_question_answer_url(@question)) %>
   <h3>回答一覧</h3>
+  <div class="answers_area">
+    <table>
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>回答内容</th>
+          <th>回答者</th>
+          <th>回答日</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% @answers.each do |answer| %>
+        <tr>
+          <td style="width: 20px;"><%= answer.id %></td>
+          <td style="width: 300px;"><%= answer.answer %></td>
+          <td style="width: 100px;" ><%= answer.created_user_name %></td>
+          <td style="width: 100px;"><%= answer.created_at.strftime('%Y/%m/%d') %></td>
+          <td style="width: 130px;">
+            <%= link_to('編集', edit_question_answer_url(@question, answer)) %>
+          </td>
+        <tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
 <%= link_to('戻る', questions_path)%>

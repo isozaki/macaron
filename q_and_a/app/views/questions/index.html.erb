@@ -30,6 +30,7 @@
           <th>優先度</th>
           <th>回答期限</th>
           <th>ステータス</th>
+          <th>質問者</th>
           <th>操作</th>
         </tr>
       </thead>
@@ -42,6 +43,7 @@
           <td style="width: 50px;"><%= priority_name(question.priority) %></td>
           <td style="width: 100px;"><%= question.limit_datetime.strftime('%Y/%m/%d') %></td>
           <td style="width: 100px;" ><%= status_name(question.status) %></td>
+          <td style="width: 100px;" ><%= question.created_user_name %></td>
           <td style="width: 130px;">
             <%= form_for(question, url: question_path(question), method: 'delete') do |f| %>
               <%= link_to('詳細', question_path(question)) %> ｜
