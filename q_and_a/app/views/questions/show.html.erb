@@ -55,11 +55,11 @@
       <tbody>
       <% @answers.each do |answer| %>
         <tr>
-          <td style="width: 20px;"><%= answer.id %></td>
-          <td style="width: 300px;"><%= answer.answer %></td>
-          <td style="width: 100px;" ><%= answer.created_user_name %></td>
-          <td style="width: 100px;"><%= answer.created_at.strftime('%Y/%m/%d') %></td>
-          <td style="width: 130px;">
+          <td style="width:20px;"><%= answer.id %></td>
+          <td style="width:300px;"><%= simple_format(answer.answer) %></td>
+          <td style="width:100px;" ><%= answer.created_user_name %></td>
+          <td style="width:100px;"><%= answer.created_at.strftime('%Y/%m/%d') %></td>
+          <td style="width:130px;">
             <%= form_for(answer, url: question_answer_path(@question, answer), method: 'delete') do |f| %>
               <%= link_to('編集', edit_question_answer_url(@question, answer)) %> ｜
               <%= f.submit('削除する') %>
