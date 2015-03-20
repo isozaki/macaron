@@ -72,9 +72,11 @@ class QuestionsController < ApplicationController
 
     ActiveRecord::Base.transaction do
       @question.destroy
-
-      redirect_to(questions_url, notice: '質問を削除しました')
+      @question.answers.each do |answer|
+        answer.destoroy
+      end
     end
+    redirect_to(questions_url, notice: '質問を削除しました')
   rescue => e
      redirect_to(questions_url, alert: '質問の削除に失敗しました')
   end

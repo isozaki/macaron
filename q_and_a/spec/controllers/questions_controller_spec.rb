@@ -274,11 +274,15 @@ RSpec.describe QuestionsController, :type => :controller do
   describe 'DELETE destroy' do
     before(:each) do
       @question = mock_model(Question, id: 1)
+      @answer = mock_model(Answer)
+      @answers = [@answer]
     end
 
     context '成功するとき' do
       before(:each) do
         expect(Question).to receive(:find_by_id).and_return @question
+        allow(@question).to receive(:answers).and_return @answers
+        expect(@answer).to receive(:destoroy)
 
         delete :destroy, id: @question.id
       end
