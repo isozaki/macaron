@@ -5,7 +5,12 @@ Rails.application.routes.draw do
       patch :update_status
     end
 
-    resources :answers, only: [:new, :create, :edit, :update, :destroy]
+    collection do
+      get 'q_and_a_download'
+    end
+
+    resources :answers, except: [:index, :show] do
+    end
   end
 
   root :to => 'questions#index'

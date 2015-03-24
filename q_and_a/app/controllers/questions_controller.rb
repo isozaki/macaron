@@ -121,4 +121,15 @@ class QuestionsController < ApplicationController
       :updated_user_name
     )
   end
+
+  def q_and_a_download
+    ActiveRecord::Base.transaction do
+      path = File.join(Dir.tmpdir, Time.now.to_i.to_s + '_q_and_a.csv')
+      Answer.generate_q_and_a_file(path)
+
+      send_file(path, filename: "q_and_a_#{Time.now.strftime('%Y%m%d')}.csv")
+    end
+  rescue => e
+    redirect_to(questions_url, alert: 'ダウンロードに失敗しました')
+  end
 end

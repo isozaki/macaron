@@ -55,4 +55,7 @@
       </tbody>
     </table>
   </div>
+  <%= link_to('全件ダウンロード',
+              q_and_a_download_questions_path,
+              data: { confirm: "質問管理表ファイルをダウンロードします。\nよろしいですか？" }) %>
 </div>

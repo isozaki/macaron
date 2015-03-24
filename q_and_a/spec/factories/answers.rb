@@ -1,10 +1,9 @@
 FactoryGirl.define do
   factory :answer do
     question_id 1
-answer "MyText"
-deleted 1
-created_user_name "MyString"
-updated_user_name "MyString"
+    answer "回答"
+    deleted 0
+    created_user_name "回答者"
+    updated_user_name "回答者"
   end
-
 end
