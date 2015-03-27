@@ -9,7 +9,10 @@ Rails.application.routes.draw do
       get 'q_and_a_download'
     end
 
+    resources :question_attachments, only: [:show, :create, :destroy]
+
     resources :answers, except: [:index, :show] do
+      resources :answer_attachments, only: [:show, :create, :destroy]
     end
   end
 
