@@ -25,10 +25,12 @@
       <td>優先度</td>
       <td><%= f.select(:priority, options_for_select(priority_select_from)) %></td>
     </tr>
-    <tr>
-      <td>ステータス</td>
-      <td><%= f.select(:status, options_for_select(status_select_from)) %></td>
-    </tr>
+    <% if params[:action] == 'edit' %>
+      <tr>
+        <td>ステータス</td>
+        <td><%= f.select(:status, options_for_select(status_select_from)) %></td>
+      </tr>
+    <% end %>
     <tr>
       <td>回答期限</td>
       <td><%= f.date_field(:limit_datetime) %></td>

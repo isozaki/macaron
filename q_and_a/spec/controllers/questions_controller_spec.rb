@@ -282,7 +282,7 @@ RSpec.describe QuestionsController, :type => :controller do
       before(:each) do
         expect(Question).to receive(:find_by_id).and_return @question
         allow(@question).to receive(:answers).and_return @answers
-        expect(@answer).to receive(:destoroy)
+        expect(@answer).to receive(:destroy)
 
         delete :destroy, id: @question.id
       end

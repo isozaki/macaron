@@ -1,6 +1,6 @@
 <div id="question_show">
   <h2>質問詳細</h2>
-  <%= link_to('編集', edit_question_url(@question)) %>
+  <div class="edit-btn"><%= link_to('編集', edit_question_url(@question), class: 'btn') %></div>
   <div class="question_area">
     <table>
       <tbody>
@@ -56,7 +56,7 @@
     </table>
   </div>
   
-  <%= link_to("回答する", new_question_answer_url(@question)) %>
+  <div class="answer-btn"><%= link_to("回答する", new_question_answer_url(@question), class: 'btn') %></div>
   <h3>回答一覧</h3>
   <div class="answers_area">
     <table>
@@ -89,10 +89,10 @@
               <% end %>
             <% end %>
           </td>
-          <td style="width:130px;">
+          <td style="width:150px;">
             <%= form_for(answer, url: question_answer_path(@question, answer), method: 'delete') do |f| %>
-              <%= link_to('編集', edit_question_answer_url(@question, answer)) %> ｜
-              <%= f.submit('削除する') %>
+              <%= link_to('編集', edit_question_answer_url(@question, answer), class: 'btn') %> ｜
+              <%= f.submit('削除', class: 'btn') %>
             <% end %>
           </td>
         <tr>

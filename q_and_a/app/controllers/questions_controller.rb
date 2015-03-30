@@ -73,7 +73,7 @@ class QuestionsController < ApplicationController
     ActiveRecord::Base.transaction do
       @question.destroy
       @question.answers.each do |answer|
-        answer.destoroy
+        answer.destroy
       end
     end
     redirect_to(questions_url, notice: '質問を削除しました')
