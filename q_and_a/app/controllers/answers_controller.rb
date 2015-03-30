@@ -61,6 +61,7 @@ class AnswersController < ApplicationController
 
     ActiveRecord::Base.transaction do
       @answer.destroy
+      @answer.answer_attachment.destroy
 
       redirect_to(question_url(@question), notice: '回答を削除しました')
     end

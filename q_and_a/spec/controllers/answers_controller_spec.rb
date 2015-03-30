@@ -206,11 +206,14 @@ describe AnswersController do
       @question = mock_model(Question, id: 1)
       expect(Question).to receive(:find_by_id).and_return(@question)
       @answer = mock_model(Answer, id: 1)
+      @answer_attachment = mock_model(AnswerAttachment)
     end
 
     context '成功するとき' do
       before(:each) do
         expect(Answer).to receive(:find_by_id).and_return @answer
+        allow(@answer).to receive(:answer_attachment).and_return @answer_attachment
+        expect(@answer_attachment).to receive(:destroy)
 
         delete :destroy, question_id: @question.id, id: @answer.id
       end

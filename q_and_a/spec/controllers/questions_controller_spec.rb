@@ -276,13 +276,19 @@ RSpec.describe QuestionsController, :type => :controller do
       @question = mock_model(Question, id: 1)
       @answer = mock_model(Answer)
       @answers = [@answer]
+      @question_attachment = mock_model(QuestionAttachment)
+      @answer_attachment = mock_model(AnswerAttachment)
     end
 
     context '成功するとき' do
       before(:each) do
         expect(Question).to receive(:find_by_id).and_return @question
         allow(@question).to receive(:answers).and_return @answers
+        allow(@question).to receive(:question_attachment).and_return @question_attachment
+        allow(@answer).to receive(:answer_attachment).and_return @answer_attachment
         expect(@answer).to receive(:destroy)
+        expect(@question_attachment).to receive(:destroy)
+        expect(@answer_attachment).to receive(:destroy)
 
         delete :destroy, id: @question.id
       end
