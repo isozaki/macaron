@@ -47,7 +47,7 @@
           <td style="width: 150px;">
             <%= form_for(question, url: question_path(question), method: 'delete') do |f| %>
               <%= link_to('詳細', question_path(question), class: 'btn') %> ｜
-              <%= f.submit('削除', class: 'btn') %>
+              <%= f.submit('削除', class: 'btn', data: { confirm: "質問を削除します。\nよろしいですか？" }) %>
             <% end %>
           </td>
         <tr>

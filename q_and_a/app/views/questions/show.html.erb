@@ -57,48 +57,50 @@
   </div>
   
   <div class="answer-btn"><%= link_to("回答する", new_question_answer_url(@question), class: 'btn') %></div>
-  <h3>回答一覧</h3>
-  <div class="answers_area">
-    <table>
-      <thead>
-        <tr>
-          <th>No.</th>
-          <th>回答内容</th>
-          <th>回答者</th>
-          <th>回答日</th>
-          <th>添付ファイル</th>
-          <th>操作</th>
-        </tr>
-      </thead>
-      <tbody>
-      <% @answers.each do |answer| %>
-        <tr>
-          <td style="width:20px;"><%= answer.id %></td>
-          <td style="width:300px;text-align:left;"><%= simple_format(answer.answer) %></td>
-          <td style="width:100px;" ><%= answer.created_user_name %></td>
-          <td style="width:100px;"><%= answer.created_at.strftime('%Y/%m/%d') %></td>
-          <td style="width:200px;">
-            <%if answer.answer_attachment.present? %>
-              <%= link_to("ダウンロード", question_answer_answer_attachment_path(@question, answer, answer.answer_attachment))  %>
-              |<%= link_to('削除', question_answer_answer_attachment_path(@question, answer, answer.answer_attachment),
-                  method: :delete, data: { confirm: '添付ファイルを削除します。よろしいですか？' }) %>
-            <% else %>
-              <%= form_tag question_answer_answer_attachments_path(@question, answer), { multipart: true } do %>
-                <%= file_field_tag(:attachment, class: 'answer-file-field') %>
-                <%= submit_tag('添付', data: { confirm: 'ファイルを添付します。よろしいですか？' }) %>
+  <% if @question.answers.present? %>
+    <h3>回答一覧</h3>
+    <div class="answers_area">
+      <table>
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>回答内容</th>
+            <th>回答者</th>
+            <th>回答日</th>
+            <th>添付ファイル</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+        <% @answers.each do |answer| %>
+          <tr>
+            <td style="width:20px;"><%= answer.id %></td>
+            <td style="width:300px;text-align:left;"><%= simple_format(answer.answer) %></td>
+            <td style="width:100px;" ><%= answer.created_user_name %></td>
+            <td style="width:100px;"><%= answer.created_at.strftime('%Y/%m/%d') %></td>
+            <td style="width:200px;">
+              <%if answer.answer_attachment.present? %>
+                <%= link_to("ダウンロード", question_answer_answer_attachment_path(@question, answer, answer.answer_attachment))  %>
+                |<%= link_to('削除', question_answer_answer_attachment_path(@question, answer, answer.answer_attachment),
+                    method: :delete, data: { confirm: '添付ファイルを削除します。よろしいですか？' }) %>
+              <% else %>
+                <%= form_tag question_answer_answer_attachments_path(@question, answer), { multipart: true } do %>
+                  <%= file_field_tag(:attachment, class: 'answer-file-field') %>
+                  <%= submit_tag('添付', data: { confirm: 'ファイルを添付します。よろしいですか？' }) %>
+                <% end %>
               <% end %>
-            <% end %>
-          </td>
-          <td style="width:150px;">
-            <%= form_for(answer, url: question_answer_path(@question, answer), method: 'delete') do |f| %>
-              <%= link_to('編集', edit_question_answer_url(@question, answer), class: 'btn') %> ｜
-              <%= f.submit('削除', class: 'btn') %>
-            <% end %>
-          </td>
-        <tr>
-      <% end %>
-      </tbody>
-    </table>
-  </div>
+            </td>
+            <td style="width:150px;">
+              <%= form_for(answer, url: question_answer_path(@question, answer), method: 'delete') do |f| %>
+                <%= link_to('編集', edit_question_answer_url(@question, answer), class: 'btn') %> ｜
+                <%= f.submit('削除', class: 'btn', data: { confirm: "回答を削除します。\nよろしいですか？" }) %>
+              <% end %>
+            </td>
+          <tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
 </div>
 <%= link_to('戻る', questions_path)%>
