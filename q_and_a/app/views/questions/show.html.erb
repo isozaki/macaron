@@ -40,9 +40,10 @@
           <td class="title">添付ファイル</td>
           <td>
             <% if @question.question_attachment.present? %>
-              <%= link_to('ダウンロード', question_question_attachment_path(@question, @question.question_attachment)) %>
-              |<%= link_to('削除', question_question_attachment_path(@question, @question.question_attachment),
-                    method: :delete, data: { confirm: '添付ファイルを削除します。よろしいですか？' }) %>
+              <%= link_to('ダウンロード', question_question_attachment_path(@question, @question.question_attachment), class: 'btn') %>
+              ｜<%= link_to('削除', question_question_attachment_path(@question, @question.question_attachment),
+                            class: 'btn',
+                            method: :delete, data: { confirm: '添付ファイルを削除します。よろしいですか？' }) %>
             <% else %>
               添付ファイルをアップロードできます。
               <%= form_tag question_question_attachments_path(@question), { multipart: true } do %>
@@ -80,9 +81,10 @@
             <td style="width:100px;"><%= answer.created_at.strftime('%Y/%m/%d') %></td>
             <td style="width:200px;">
               <%if answer.answer_attachment.present? %>
-                <%= link_to("ダウンロード", question_answer_answer_attachment_path(@question, answer, answer.answer_attachment))  %>
-                |<%= link_to('削除', question_answer_answer_attachment_path(@question, answer, answer.answer_attachment),
-                    method: :delete, data: { confirm: '添付ファイルを削除します。よろしいですか？' }) %>
+                <%= link_to("ダウンロード", question_answer_answer_attachment_path(@question, answer, answer.answer_attachment), class: 'btn')  %>
+                ｜<%= link_to('削除', question_answer_answer_attachment_path(@question, answer, answer.answer_attachment),
+                             class: 'btn',
+                             method: :delete, data: { confirm: '添付ファイルを削除します。よろしいですか？' }) %>
               <% else %>
                 <%= form_tag question_answer_answer_attachments_path(@question, answer), { multipart: true } do %>
                   <%= file_field_tag(:attachment, class: 'answer-file-field') %>

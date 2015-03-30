@@ -4,7 +4,8 @@ RSpec.describe "questions/show.html.erb", :type => :view do
   before(:each) do
     @question = FactoryGirl.create(:question)
     @answers = mock_model(Answer)
-    expect(@answers).to receive(:each).and_return(@answers)
+    @question_attachment = mock_model(QuestionAttachment)
+    @answer_attachment = mock_model(AnswerAttachment)
     assign(:question, @question)
     assign(:answers, @answers)
   end
