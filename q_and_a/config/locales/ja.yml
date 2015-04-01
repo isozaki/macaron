@@ -1,0 +1,12 @@
+ja:
+  priority:
+    low: '低'
+    mid: '中'
+    high: '高'
+  status:
+    unanswered: '回答待ち'
+    answered: '回答済み'
+    remand: '差し戻し'
+    review: '検討中'
+    completion: '完了'
+    dismissal: '却下'

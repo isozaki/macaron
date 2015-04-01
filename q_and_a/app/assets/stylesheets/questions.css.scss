@@ -1,0 +1,87 @@
+// Place all the styles related to the questions controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+#question_index {
+    margin-left: 30px;
+
+    .search_area {
+        border: 2px solid;
+        padding: 10px;
+        width: 1000px;
+    }
+    .list_area {
+        margin-top: 10px;
+
+        th {
+            height: auto;
+            border: 1px solid;
+            background-color: #778899;
+        }
+
+        td {
+            width: auto;
+            text-align: center;
+            border: 1px solid;
+        }
+    }
+
+    .download-area {
+        margin-top: 10px;
+        font-size: 15px;
+    }
+}
+
+#question_show {
+    margin-left: 30px;
+
+    .edit-btn {
+        margin-bottom: 10px;
+    }
+
+    .answer-btn {
+        margin-top: 10px;
+    }
+
+    .question_area {
+        td {
+            width: 300px;
+            text-align: left;
+            border: 1px solid;
+        }
+
+        .title {
+            text-align: center;
+            width:100px;
+        }
+    }
+
+    .answers_area {
+        th {
+            height: auto;
+            border: 1px  solid;
+            background-color: #778899;
+        }
+
+        td {
+            width: auto;
+            text-align: center;
+            border: 1px solid;
+        }
+
+        .answer-file-field {
+            width: 150px;
+        }
+    }
+}
+
+#new-question {
+    margin-left: 30px;
+}
+
+#edit-question {
+    margin-left: 30px;
+}
+
+#edit-status {
+    margin-left: 30px;
+}

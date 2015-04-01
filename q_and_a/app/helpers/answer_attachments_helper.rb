@@ -1,0 +1,2 @@
+module AnswerAttachmentsHelper
+end

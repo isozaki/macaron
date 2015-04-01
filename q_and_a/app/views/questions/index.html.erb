@@ -1,0 +1,64 @@
+<div id="question_index">
+  <h2>質問一覧</h2></ br>
+  <h3><%= link_to('新規登録', new_question_url, class: 'btn')%></h3>
+  <div class="search_area">
+    検索条件
+    <%= form_tag(questions_path, method: :get) do %>
+      タイトル：
+      <%= text_field_tag(:title, params[:title], style: "width:200px;") %>
+      担当者：
+      <%= text_field_tag(:charge, params[:charge], style: "width:100px;") %>
+      ステータス：
+      <%= select_tag(:status,
+                     options_for_select(status_select_from, params[:status]),
+                     include_blank: true,
+                     style: "width:100px;") %>
+      回答期限：
+      <%= date_field_tag(:limit_datetime, params[:limit_datetime], style: "width:150px;") %>
+      <%= submit_tag('検索', class: 'btn') %>
+      <%= button_tag('リセット', type: :reset, class: 'btn') %>
+    <% end %>
+  </div>
+  <div class="list_area"> 
+    検索結果
+    <table>
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>タイトル</th>
+          <th>担当者</th>
+          <th>優先度</th>
+          <th>回答期限</th>
+          <th>ステータス</th>
+          <th>質問者</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% @questions.each do |question| %>
+        <tr>
+          <td style="width: 20px;"><%= question.id %></td>
+          <td style="width: 300px;"><%= question.title %></td>
+          <td style="width: 100px;" ><%= question.charge %></td>
+          <td style="width: 50px;"><%= priority_name(question.priority) %></td>
+          <td style="width: 100px;"><%= question.limit_datetime.strftime('%Y/%m/%d') %></td>
+          <td style="width: 100px;" ><%= status_name(question.status) %></td>
+          <td style="width: 100px;" ><%= question.created_user_name %></td>
+          <td style="width: 150px;">
+            <%= form_for(question, url: question_path(question), method: 'delete') do |f| %>
+              <%= link_to('詳細', question_path(question), class: 'btn') %> ｜
+              <%= f.submit('削除', class: 'btn', data: { confirm: "質問を削除します。\nよろしいですか？" }) %>
+            <% end %>
+          </td>
+        <tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="download-area">
+    <%= link_to('全件ダウンロード',
+                q_and_a_download_questions_path,
+                class: 'btn',
+                data: { confirm: "質問管理表ファイルをダウンロードします。\nよろしいですか？" }) %>
+  </div>
+</div>
