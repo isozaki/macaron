@@ -7,11 +7,11 @@
 #  question          :text             not null
 #  charge            :string(64)       not null
 #  priority          :integer          not null
-#  status            :integer          not null
+#  status            :integer          default(1), not null
 #  limit_datetime    :datetime         not null
 #  deleted           :integer          default(0), not null
 #  created_user_name :string(64)       not null
-#  updated_user_name :string(255)      not null
+#  updated_user_name :string(255)
 #  created_at        :datetime
 #  updated_at        :datetime
 #

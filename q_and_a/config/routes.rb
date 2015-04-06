@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  get 'users/index'
+
+  get 'users/new'
+
+  get 'users/edit'
+
+  get 'users/login'
+
   resources :questions do
     member do
       get :edit_status
