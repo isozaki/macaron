@@ -1,12 +1,4 @@
 Rails.application.routes.draw do
-  get 'users/index'
-
-  get 'users/new'
-
-  get 'users/edit'
-
-  get 'users/login'
-
   resources :questions do
     member do
       get :edit_status
@@ -21,6 +13,12 @@ Rails.application.routes.draw do
 
     resources :answers, except: [:index, :show] do
       resources :answer_attachments, only: [:show, :create, :destroy]
+    end
+  end
+
+  resources :users, except: [:show] do
+    collection do
+      get :login
     end
   end
 

@@ -1,0 +1,24 @@
+<table>
+  <tbody>
+    <tr>
+      <td>氏名</td>
+      <td><%= f.text_field(:name) %></td>
+    </tr>
+    <tr>
+      <td>氏名(カナ)</td>
+      <td><%= f.text_field(:name_kana) %></td>
+    </tr>
+    <tr>
+      <td>ログインID</td>
+      <td><%= f.text_field(:login) %></td>
+    </tr>
+    <tr>
+      <td>パスワード</td>
+      <td><%= f.password_field(:password) %></td>
+    </tr>
+    <tr>
+      <td>パスワード(確認)</td>
+      <td><%= f.password_field(:password_confirmation) %></td>
+    </tr>
+  </tbody>
+</table>

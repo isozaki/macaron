@@ -1,2 +1,12 @@
-<h1>Users#new</h1>
-<p>Find me in app/views/users/new.html.erb</p>
+<div id="new-user">
+  <h2>利用者新規登録</h2>
+  <div id="form_area">
+    <%= form_for(@user, url: users_path, method: :post) do |f| %>
+      <%= render('form', f: f) %>
+      <div class="action">
+        <%= link_to('戻る', users_path, class: 'btn') %>
+        <%= submit_tag('登録', class: 'btn', data: { confirm: "入力した内容を登録します。\nよろしいですか？" }) %>
+      </div>
+    <% end %>
+  </div>
+</div>

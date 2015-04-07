@@ -1,10 +1,9 @@
 FactoryGirl.define do
   factory :user do
-    name "MyString"
-name_kane "MyString"
-login "MyString"
-password "MyString"
-deleted 1
+    name 'テスト太郎'
+    name_kana 'テストタロウ'
+    login 'login'
+    password 'password'
+    deleted 0
   end
-
 end
