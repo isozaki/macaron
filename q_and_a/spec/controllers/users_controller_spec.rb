@@ -3,6 +3,17 @@ require 'rails_helper'
 RSpec.describe UsersController, :type => :controller do
 
   describe "GET index" do
+    before(:each) do
+      @users = double
+      expect(User).to receive(:search_user)
+        .with(hash_including('name' => 'テスト太郎'))
+        .and_return @users
+
+      get :index, name: 'テスト太郎'
+    end
+
+    it { expect(response).to render_template(:index) }
+    it { expect(assigns(:users)).to eq @users }
   end
 
   describe "GET new" do

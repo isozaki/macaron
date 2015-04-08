@@ -160,4 +160,60 @@ RSpec.describe User, :type => :model do
       end
     end
   end
+
+  describe '利用者の検索について' do
+    before(:each) do
+      FactoryGirl.create(
+        :user,
+        name: 'テスト太郎',
+        name_kana: 'テストタロウ',
+        login: 'login',
+        password: 'password'
+      )
+
+      FactoryGirl.create(
+        :user,
+        name: 'テスト次郎',
+        name_kana: 'テストジロウ',
+        login: 'login2',
+        password: 'password2'
+      )
+    end
+
+    context '何も指定しないとき' do
+      it do
+        expect do
+          User.search_user(name: '', name_kana: '')
+        end.not_to raise_error
+      end
+
+      it do
+        expect(User.search_user(name: '', name_kana: '').count).to eq 2
+      end
+    end
+
+    context '氏名が指定されているとき' do
+      it do
+        expect do
+          User.search_user(name: 'テスト太郎')
+        end.not_to raise_error
+      end
+
+      it do
+        expect(User.search_user(name: 'テスト太郎').count).to eq 1
+      end
+    end
+
+    context '氏名(カナ)が指定されているとき' do
+      it do
+        expect do
+          User.search_user(name_kana: 'テストタロウ')
+        end.not_to raise_error
+      end
+
+      it do
+        expect(User.search_user(name_kana: 'テストタロウ').count).to eq 1
+      end
+    end
+  end
 end

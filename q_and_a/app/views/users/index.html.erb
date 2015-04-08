@@ -1,2 +1,42 @@
-<h1>Users#index</h1>
-<p>Find me in app/views/users/index.html.erb</p>
+<div id="user_index">
+  <h2>利用者一覧</h2></ br>
+  <div class="search_area">
+    検索条件
+    <%= form_tag(users_path, method: :get) do %>
+      氏名：
+      <%= text_field_tag(:name, params[:name], style: "width:150px;") %>
+      氏名(カナ)：
+      <%= text_field_tag(:name_kana, params[:name_kana], style: "width:150px;") %>
+      <%= submit_tag('検索', class: 'btn') %>
+      <%= button_tag('リセット', type: :reset, class: 'btn') %>
+    <% end %>
+  </div>
+  <div class="list_area"> 
+    検索結果
+    <table>
+      <thead>
+        <tr>
+          <th>氏名</th>
+          <th>氏名(カナ)</th>
+          <th>ログインID</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td style="width: 100px;"><%= user.name %></td>
+          <td style="width: 100px;"><%= user.name_kana %></td>
+          <td style="width: 100px;" ><%= user.login %></td>
+          <td style="width: 150px;">
+            <%= form_for(user, url: user_path(user), method: 'delete') do |f| %>
+              <%= link_to('編集', edit_user_path(user), class: 'btn') %> ｜
+              <%= f.submit('削除', class: 'btn', data: { confirm: "質問を削除します。\nよろしいですか？" }) %>
+            <% end %>
+          </td>
+        <tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
