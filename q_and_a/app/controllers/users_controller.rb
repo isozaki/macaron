@@ -76,9 +76,6 @@ class UsersController < ApplicationController
      redirect_to(users_url, alert: '利用者の削除に失敗しました')
   end
 
-  def login
-  end
-
   def user_params
     return {} if params[:user].blank?
 

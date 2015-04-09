@@ -16,11 +16,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users do
-    collection do
-      get :login
-    end
-  end
+  resources :users
 
   root :to => 'questions#index'
 
