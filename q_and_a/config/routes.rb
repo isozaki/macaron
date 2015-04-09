@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users, except: [:show] do
+  resources :users do
     collection do
       get :login
     end

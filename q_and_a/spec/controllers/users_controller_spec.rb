@@ -16,6 +16,59 @@ RSpec.describe UsersController, :type => :controller do
     it { expect(assigns(:users)).to eq @users }
   end
 
+  describe "GET show" do
+    before(:each) do
+      @user = mock_model(User)
+      @users = []
+    end
+
+    context '対象が指定されていないとき' do
+      before(:each) do
+        get :show, id: ''
+      end
+
+      it '利用者一覧画面が表示されること' do
+        expect(response).to redirect_to(users_url)
+      end
+
+      it 'アラートが表示されること' do
+        expect(flash[:alert]).to eq '対象が指定されていません'
+      end
+    end
+
+    context '対象が存在しないとき' do
+      before(:each) do
+        allow(User).to receive(:where).with(id: 0.to_s).and_return(@users)
+        expect(@users).to receive(:first).and_return(nil)
+
+        get :show, id: 0
+      end
+
+      it '利用者一覧画面が表示されること' do
+        expect(response).to redirect_to(users_url)
+      end
+
+      it 'アラートが表示されること' do
+        expect(flash[:alert]).to eq '対象が見つかりません'
+      end
+    end
+
+    context '対象が存在するとき' do
+      before(:each) do
+        allow(User).to receive(:where).with(id: @user.id.to_s).and_return(@users)
+        expect(@users).to receive(:first).and_return(@user)
+
+        get :show, id: @user.id
+      end
+
+      it '利用者詳細画面が表示されること' do
+        expect(response).to render_template(:show)
+      end
+
+      it { expect(assigns(:user)).to eq @user }
+    end
+  end
+
   describe "GET new" do
     before(:each) do
       @user = mock_model(User)

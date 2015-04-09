@@ -3,6 +3,19 @@ class UsersController < ApplicationController
     @users = User.search_user(params)
   end
 
+  def show
+    if params[:id].blank?
+      redirect_to(users_url, alert: '対象が指定されていません')
+      return
+    end
+
+    @user = User.where(id: params[:id]).first
+    unless @user
+      redirect_to(users_url, alert: '対象が見つかりません')
+      return
+    end
+  end
+
   def new
     @user = User.new
   end

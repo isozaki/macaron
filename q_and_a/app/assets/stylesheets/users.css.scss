@@ -31,6 +31,27 @@
     }
 }
 
+#user_show {
+    margin-left: 30px;
+
+    .edit-btn {
+        margin-bottom: 10px;
+    }
+
+    .user_area {
+        td {
+            width: 300px;
+            text-align: left;
+            border: 1px solid;
+        }
+
+        .title {
+            text-align: center;
+            width:100px;
+        }
+    }
+}
+
 #new-user {
     margin-left: 30px;
 }
