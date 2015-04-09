@@ -34,6 +34,35 @@ class UsersController < ApplicationController
   end
 
   def edit
+    if params[:id].blank?
+      redirect_to(users_url, alert: '対象が指定されていません')
+      return
+    end
+
+    @user = User.where(id: params[:id]).first
+    unless @user
+      redirect_to(users_url, alert: '対象が見つかりません')
+    end
+  end
+
+  def update
+    if params[:id].blank?
+      redirect_to(users_url, alert: '対象が指定されていません')
+      return
+    end
+    @user =User.where(id: params[:id]).first
+    unless @user
+      redirect_to(users_url, alert: '対象が見つかりません')
+      return
+    end
+
+    ActiveRecord::Base.transaction do
+      @user.update!(user_params)
+    end
+
+    redirect_to(user_url(@user), notice: '利用者を更新しました')
+  rescue ActiveRecord::RecordInvalid => e
+     render(:edit)
   end
 
   def login

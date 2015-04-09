@@ -1,2 +1,12 @@
-<h1>Users#edit</h1>
-<p>Find me in app/views/users/edit.html.erb</p>
+<div id="edit-user">
+  <h2>利用者更新</h2>
+  <div id="form_area">
+    <%= form_for(@user, url: user_path(@user), method: :patch) do |f| %>
+      <%= render('form', f: f) %>
+      <div class="action">
+        <%= link_to('戻る', user_path(@user), class: 'btn') %>
+        <%= submit_tag('更新', class: 'btn', data: { confirm: "入力した内容を更新します。\nよろしいですか？" }) %>
+      </div>
+    <% end %>
+  </div>
+</div>

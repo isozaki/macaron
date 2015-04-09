@@ -1,5 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe "users/edit.html.erb", :type => :view do
-  pending "add some examples to (or delete) #{__FILE__}"
+  context 'エラーがないとき' do
+    before(:each) do
+      @user = mock_model(User)
+      assign(:user, @user)
+    end
+
+    it '正しく表示されること' do
+      render
+    end
+  end
 end
