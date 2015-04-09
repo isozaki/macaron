@@ -65,6 +65,17 @@ class UsersController < ApplicationController
      render(:edit)
   end
 
+  def destroy
+    @user = User.find_by_id(params[:id])
+
+    ActiveRecord::Base.transaction do
+      @user.destroy
+    end
+    redirect_to(users_url, notice: '利用者を削除しました')
+  rescue => e
+     redirect_to(users_url, alert: '利用者の削除に失敗しました')
+  end
+
   def login
   end
 

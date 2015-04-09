@@ -266,6 +266,43 @@ RSpec.describe UsersController, :type => :controller do
     end
   end
 
+  describe 'DELETE destroy' do
+    before(:each) do
+      @user = mock_model(User, id: 1)
+    end
+
+    context '成功するとき' do
+      before(:each) do
+        expect(User).to receive(:find_by_id).and_return @user
+
+        delete :destroy, id: @user.id
+      end
+
+      it '利用者一覧画面にリダイレクトされること' do
+        expect(response).to redirect_to(users_url)
+      end
+
+      it '削除完了メッセージが表示されること' do
+        expect(flash[:notice]).to eq('利用者を削除しました')
+      end
+    end
+
+    context '失敗するとき' do
+      before(:each) do
+        expect(User).to receive(:find_by_id).and_return @user
+        expect(@user).to receive(:destroy).and_raise
+
+        delete :destroy, id: @user.id
+      end
+
+      it '質問一覧画面に遷移すること' do
+        expect(response).to redirect_to(users_url)
+      end
+
+      it { expect(flash[:alert]).to eq('利用者の削除に失敗しました') }
+    end
+  end
+
   describe "GET login" do
   end
 end
