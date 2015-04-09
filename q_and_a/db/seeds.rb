@@ -5,6 +5,12 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+user1 = FactoryGirl.create(:user,
+                           name: 'テスト太郎',
+                           name_kana: 'テストタロウ',
+                           login: 'login',
+                           password: 'password'
+                          )
 
 question1 = FactoryGirl.create(:question,
                                title: 'テスト質問',
