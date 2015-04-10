@@ -13,6 +13,8 @@
 #
 
 class User < ActiveRecord::Base
+  has_secure_password
+
   validates(:name, presence: true, length: { maximum: 64 })
   validates(:name_kana, presence: true, length: {maximum: 64})
   validates(:login, presence: true, on: :create, uniqueness: true, length: { maximum: 255 }, format: { with: /\A[a-zA-Z0-9]+\z/i })

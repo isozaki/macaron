@@ -129,12 +129,6 @@ RSpec.describe User, :type => :model do
         it { is_expected.not_to be_valid }
       end
 
-      context 'ブランクが指定されたとき' do
-        before(:each) { subject.password = '' }
-
-        it { is_expected.not_to be_valid }
-      end
-
       context '最小長が指定されたとき' do
         before(:each) { subject.password = 'a' * 4 }
 
