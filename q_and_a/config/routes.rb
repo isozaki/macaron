@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :menus, only: [:index]
+
   resources :questions do
     member do
       get :edit_status
@@ -18,7 +20,7 @@ Rails.application.routes.draw do
 
   resources :users
 
-  root :to => 'questions#index'
+  root :to => 'menus#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
