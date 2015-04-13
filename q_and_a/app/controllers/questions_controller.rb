@@ -44,6 +44,7 @@ class QuestionsController < ApplicationController
     @question = Question.where(id: params[:id]).first
     unless @question
       redirect_to(questions_url, alert: '対象が見つかりません')
+      return
     end
   end
 
@@ -64,7 +65,7 @@ class QuestionsController < ApplicationController
 
     redirect_to(question_url(@question), notice: '質問を更新しました')
   rescue ActiveRecord::RecordInvalid => e
-     render(:edit)
+    render(:edit)
   end
 
   def destroy
@@ -80,7 +81,7 @@ class QuestionsController < ApplicationController
     end
     redirect_to(questions_url, notice: '質問を削除しました')
   rescue => e
-     redirect_to(questions_url, alert: '質問の削除に失敗しました')
+    redirect_to(questions_url, alert: '質問の削除に失敗しました')
   end
 
   def edit_status
@@ -112,7 +113,7 @@ class QuestionsController < ApplicationController
 
     redirect_to(question_url(@question), notice: 'ステータスを更新しました')
   rescue ActiveRecord::RecordInvalid => e
-     render(:edit)
+    render(:edit)
   end
 
   def question_params

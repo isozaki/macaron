@@ -42,6 +42,7 @@ class UsersController < ApplicationController
     @user = User.where(id: params[:id]).first
     unless @user
       redirect_to(users_url, alert: '対象が見つかりません')
+      return
     end
   end
 
@@ -62,7 +63,7 @@ class UsersController < ApplicationController
 
     redirect_to(user_url(@user), notice: '利用者を更新しました')
   rescue ActiveRecord::RecordInvalid => e
-     render(:edit)
+    render(:edit)
   end
 
   def destroy
@@ -73,7 +74,7 @@ class UsersController < ApplicationController
     end
     redirect_to(users_url, notice: '利用者を削除しました')
   rescue => e
-     redirect_to(users_url, alert: '利用者の削除に失敗しました')
+    redirect_to(users_url, alert: '利用者の削除に失敗しました')
   end
 
   def user_params

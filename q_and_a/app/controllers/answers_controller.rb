@@ -30,6 +30,7 @@ class AnswersController < ApplicationController
     @answer = Answer.where(id: params[:id]).first
     unless @answer
       redirect_to(question_url(@question), alert: '対象が見つかりません')
+      return
     end
   end
 
@@ -52,7 +53,7 @@ class AnswersController < ApplicationController
 
     redirect_to(edit_status_question_url(@question), notice: '回答を更新しました')
   rescue ActiveRecord::RecordInvalid => e
-     render(:edit)
+    render(:edit)
   end
 
   def destroy
@@ -66,7 +67,7 @@ class AnswersController < ApplicationController
       redirect_to(question_url(@question), notice: '回答を削除しました')
     end
   rescue => e
-     redirect_to(question_url(@question), alert: '質問の削除に失敗しました')
+    redirect_to(question_url(@question), alert: '質問の削除に失敗しました')
   end
 
   def answer_params
