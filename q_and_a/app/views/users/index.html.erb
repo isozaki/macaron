@@ -31,7 +31,7 @@
           <td style="width: 150px;">
             <%= form_for(user, url: user_path(user), method: 'delete') do |f| %>
               <%= link_to('詳細', user_path(user), class: 'btn') %> ｜
-              <%= f.submit('削除', class: 'btn', data: { confirm: "質問を削除します。\nよろしいですか？" }) %>
+              <%= f.submit('削除', class: 'btn', data: { confirm: "利用者を削除します。\nよろしいですか？" }) %>
             <% end %>
           </td>
         <tr>
