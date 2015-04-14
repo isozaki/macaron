@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resource :session, except: [:show, :update]
+
   resources :menus, only: [:index]
 
   resources :questions do

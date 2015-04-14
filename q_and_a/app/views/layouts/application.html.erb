@@ -9,6 +9,9 @@
 <body>
 
   <h1>質問管理表アプリ</h1>
+  <% if session[:user_id] %>
+    <%= link_to('ログアウト', session_path, method: 'delete', class: 'btn') %>
+  <% end %>
 <%= yield %>
 
 </body>
