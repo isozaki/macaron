@@ -1,5 +1,6 @@
 <div id="user_index">
   <h2>利用者一覧</h2></ br>
+  <%= link_to('利用者登録', new_user_url, class: 'btn') %>
   <div class="search_area">
     検索条件
     <%= form_tag(users_path, method: :get) do %>
@@ -38,5 +39,6 @@
       <% end %>
       </tbody>
     </table>
+    <% paginate @users %>
   </div>
 </div>
