@@ -23,7 +23,9 @@ class User < ActiveRecord::Base
             format: { with: /\A[a-zA-Z0-9]+\z/i })
 
   def self.search_user(params)
-    users = User.order('id ASC')
+    params[:page] ||= 1
+    params[:per] ||= 5
+    users = User.order('id ASC').page(params[:page]).per(params[:per])
 
     users.where!('name LIKE ?', "%#{params[:name]}%") unless params[:name].blank?
     users.where!('name_kana LIKE ?', "%#{params[:name_kana]}%") unless params[:name_kana].blank?

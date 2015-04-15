@@ -45,7 +45,9 @@ class Question < ActiveRecord::Base
   has_one(:question_attachment)
 
   def self.search_question(params)
-    questions = Question.order('id ASC')
+    params[:page] ||= 1
+    params[:per] ||= 5
+    questions = Question.order('id ASC').page(params[:page]).per(params[:per])
 
     questions.where!('title LIKE ?', "%#{params[:title]}%") unless params[:title].blank?
     questions.where!('charge LIKE ?', "%#{params[:charge]}%") unless params[:charge].blank?
