@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, :type => :controller do
+  before(:each) do
+    @logined_user = logined_by(mock_logined_user)
+  end
 
   describe "GET index" do
     before(:each) do
@@ -88,6 +91,7 @@ RSpec.describe UsersController, :type => :controller do
 
   describe "POST create" do
     before(:each) do
+      logined_by(mock_logined_user)
       @user = mock_model(User)
 
       allow(User).to receive(:new).and_return(@user)
@@ -112,7 +116,7 @@ RSpec.describe UsersController, :type => :controller do
       end
 
       it 'indexにリダイレクトされること' do
-        expect(response).to redirect_to(users_url)
+        expect(response).to redirect_to(new_session_url)
       end
 
       it '登録成功のメッセージが表示されること' do

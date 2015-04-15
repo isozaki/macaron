@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  skip_before_filter :check_login, only: [:new, :create]
+
   def index
     @users = User.search_user(params)
   end
@@ -28,7 +30,12 @@ class UsersController < ApplicationController
       @user.save!
     end
 
-    redirect_to(users_url, notice: '利用者を登録しました')
+    unless session[:user_id]
+      redirect_to(new_session_url, notice: '利用者を登録しました')
+    else
+      redirect_to(user_url(@user), notice: '利用者を登録しました')
+    end
+
   rescue ActiveRecord::RecordInvalid => e
     render :new
   end

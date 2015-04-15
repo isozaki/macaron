@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 describe AnswersController do
+  before(:each) do
+    @logined_user = logined_by(mock_logined_user)
+  end
 
   describe "GET new" do
     before(:each) do
