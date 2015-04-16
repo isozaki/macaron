@@ -7,12 +7,14 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-  <h1>質問管理表アプリ</h1>
-  <% if session[:user_id] %>
-    <%= link_to('ログアウト', session_path, method: 'delete', class: 'btn') %>
-  <% end %>
-<%= yield %>
-
+  <div id="title">
+    <h1>質問管理表アプリ</h1>
+  </div>
+  <div id="logout-btn">
+    <% if session[:user_id] %>
+      <%= link_to('ログアウト', session_path, method: 'delete', class: 'btn') %>
+    <% end %>
+  </div>
+  <%= yield %>
 </body>
 </html>

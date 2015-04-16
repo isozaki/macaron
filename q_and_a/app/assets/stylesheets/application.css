@@ -13,3 +13,10 @@
  *= require_tree .
  *= require_self
  */
+#title {
+}
+
+#logout-btn {
+    float:right;
+    margin-right: 700px;
+}
