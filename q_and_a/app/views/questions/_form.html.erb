@@ -1,15 +1,6 @@
 <table>
   <tbody>
     <tr>
-      <% if params[:action] == 'new' %>
-        <td>質問者名</td>
-        <td><%= f.text_field(:created_user_name) %></td>
-      <% elsif params[:action] == 'edit' %>
-        <td>更新者名</td>
-        <td><%= f.text_field(:updated_user_name) %></td>
-      <% end %>
-    </tr>
-    <tr>
       <td>タイトル</td>
       <td><%= f.text_field(:title) %></td>
     </tr>

@@ -14,4 +14,7 @@ end
 
 def logined_by(user)
   allow(controller).to receive(:check_login).and_return(user)
+  allow(controller).to receive(:logined_user).and_return(user)
+
+  user
 end

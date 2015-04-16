@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   def check_login
     if session[:user_id]
       begin
-        @logined_user ||= User.find(session[:user_id])
+        return @logined_user ||= User.find(session[:user_id])
       rescue
         session[:user_id] = nil
       end
@@ -16,6 +16,11 @@ class ApplicationController < ActionController::Base
 
     unless @logined_user
       redirect_to(new_session_path, alert: 'ログイン情報が存在しません')
+      return
     end
+  end
+
+  def logined_user
+    @logined_user
   end
 end

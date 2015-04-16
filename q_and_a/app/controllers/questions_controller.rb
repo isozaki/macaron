@@ -24,6 +24,8 @@ class QuestionsController < ApplicationController
 
   def create
     @question = Question.new(question_params)
+    @question.created_user_name = logined_user.name
+    @question.updated_user_name = logined_user.name
     
     ActiveRecord::Base.transaction do
       fail ActiveRecord::RecordInvalid.new(@question) unless @question.valid?
@@ -60,6 +62,7 @@ class QuestionsController < ApplicationController
     end
 
     ActiveRecord::Base.transaction do
+      @question.updated_user_name = logined_user.name
       @question.update!(question_params)
     end
 
@@ -108,6 +111,7 @@ class QuestionsController < ApplicationController
     end
 
     ActiveRecord::Base.transaction do
+      @question.updated_user_name = logined_user.name
       @question.update!(question_params)
     end
 
