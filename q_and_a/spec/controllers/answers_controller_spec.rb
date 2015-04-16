@@ -33,18 +33,14 @@ describe AnswersController do
       before(:each) do
         @question = mock_model(Question, id: 1)
 
-        expect(Answer).to receive(:new).with(
-          'answer' => '回答',
-          'created_user_name' => '回答者',
-        ).and_return(@answer)
+        expect(Answer).to receive(:new).with('answer' => '回答').and_return(@answer)
         expect(@answer).to receive(:question_id=).and_return(@question.id)
+        expect(@answer).to receive(:created_user_name=).with(@logined_user.name)
+        expect(@answer).to receive(:updated_user_name=).with(@logined_user.name)
         expect(@answer).to receive(:save!)
         allow(Question).to receive(:find_by_id).and_return(@question)
 
-        post :create, question_id: @question.id, answer: {
-          'answer' => '回答',
-          'created_user_name' => '回答者'
-        }
+        post :create, question_id: @question.id, answer: { 'answer' => '回答' }
       end
 
       it 'ステータス変更画面にリダイレクトされること' do
@@ -57,6 +53,8 @@ describe AnswersController do
         @question = mock_model(Question, id: 1)
         expect(@answer).to receive(:valid?).and_return false
         expect(@answer).to receive(:question_id=).and_return(@question.id)
+        expect(@answer).to receive(:created_user_name=).with(@logined_user.name)
+        expect(@answer).to receive(:updated_user_name=).with(@logined_user.name)
 
         post :create, question_id: @question.id, answer: { answer: '回答' }
       end
@@ -132,14 +130,12 @@ describe AnswersController do
     context '成功するとき' do
       before(:each) do
         allow(Answer).to receive_message_chain(:where, :first).and_return(@answer)
-        expect(@answer).to receive(:update!)
-          .with('answer' => '回答',
-                'updated_user_name' => '更新者A')
+        expect(@answer).to receive(:update!).with('answer' => '回答')
+        expect(@answer).to receive(:updated_user_name=).with(@logined_user.name)
 
           patch(:update, question_id: @question.id,  id: @answer.id, answer: {
-          answer: '回答',
-          updated_user_name: '更新者A'
-        })
+            answer: '回答'
+          })
       end
 
       it 'ステータス変更画面へ遷移すること' do
@@ -153,13 +149,12 @@ describe AnswersController do
       before(:each) do
         allow(Answer).to receive_message_chain(:where, :first).and_return(@answer)
         expect(@answer).to receive(:update!)
-          .with('answer' => '回答',
-                'updated_user_name' => '更新者A')
+          .with('answer' => '回答')
           .and_raise(ActiveRecord::RecordInvalid.new(@question))
+        expect(@answer).to receive(:updated_user_name=).with(@logined_user.name)
 
         patch(:update, question_id: @question.id, id: @answer.id, answer: {
-          answer: '回答',
-          updated_user_name: '更新者A'
+          answer: '回答'
         })
       end
 
@@ -191,8 +186,7 @@ describe AnswersController do
         allow(Answer).to receive_message_chain(:where, :first).and_return(nil)
 
         patch(:update, question_id: @question.id, id: '0', answer: {
-            answer: '回答',
-            updated_user_name: '更新者A'
+            answer: '回答'
         })
       end
 

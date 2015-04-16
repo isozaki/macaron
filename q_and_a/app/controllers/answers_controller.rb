@@ -7,6 +7,8 @@ class AnswersController < ApplicationController
   def create
     @question = Question.find_by_id(params[:question_id])
     @answer = Answer.new(answer_params)
+    @answer.created_user_name = logined_user.name
+    @answer.updated_user_name = logined_user.name
     @answer.question_id = params[:question_id]
 
     ActiveRecord::Base.transaction do
@@ -48,6 +50,7 @@ class AnswersController < ApplicationController
     end
 
     ActiveRecord::Base.transaction do
+      @answer.updated_user_name = logined_user.name
       @answer.update!(answer_params)
     end
 
