@@ -13,3 +13,6 @@
   </table>
   <%= submit_tag('ログイン') %>
 <% end %>
+<% if session[:user_id] %>
+  <%= link_to('メニュー', menus_path) %>
+<% end %>

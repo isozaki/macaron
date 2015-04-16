@@ -4,7 +4,7 @@
     <%= form_for(@answer, url: question_answer_path(@question, @answer), method: :patch) do |f| %>
       <%= render('form', f: f) %>
       <div class="action">
-        <%= link_to('戻る', questions_path, class: 'btn') %>
+        <%= link_to('戻る', question_path(@question), class: 'btn') %>
         <%= submit_tag('更新', class: 'btn', data: { confirm: "入力した内容を更新します。\nよろしいですか？" }) %>
       </div>
     <% end %>
