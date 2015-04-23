@@ -18,8 +18,7 @@ class User < ActiveRecord::Base
   validates(:name, presence: true, length: { maximum: 64 })
   validates(:name_kana, presence: true, length: {maximum: 64})
   validates(:login, presence: true, on: :create, uniqueness: true, length: { maximum: 255 }, format: { with: /\A[a-zA-Z0-9]+\z/i })
-  validates(:password, presence: true, on: :create)
-  validates(:password, length: { maximum: 16, minimum: 4 }, confirmation: true,
+  validates(:password, presence: true, on: :create, length: { maximum: 16, minimum: 4 }, confirmation: true,
             format: { with: /\A[a-zA-Z0-9]+\z/i })
 
   def self.search_user(params)
