@@ -65,12 +65,14 @@ class AnswersController < ApplicationController
 
     ActiveRecord::Base.transaction do
       @answer.destroy
-      @answer.answer_attachment.destroy
+      if @answer.answer_attachment.present?
+        @answer.answer_attachment.destroy
+      end
 
       redirect_to(question_url(@question), notice: '回答を削除しました')
     end
   rescue => e
-    redirect_to(question_url(@question), alert: '質問の削除に失敗しました')
+    redirect_to(question_url(@question), alert: '回答の削除に失敗しました')
   end
 
   def answer_params

@@ -236,7 +236,7 @@ describe AnswersController do
         expect(response).to redirect_to(question_url(@answer))
       end
 
-      it { expect(flash[:alert]).to eq('質問の削除に失敗しました') }
+      it { expect(flash[:alert]).to eq('回答の削除に失敗しました') }
     end
   end
 end

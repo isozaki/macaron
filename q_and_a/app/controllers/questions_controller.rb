@@ -76,10 +76,16 @@ class QuestionsController < ApplicationController
 
     ActiveRecord::Base.transaction do
       @question.destroy
-      @question.question_attachment.destroy
-      @question.answers.each do |answer|
-        answer.destroy
-        answer.answer_attachment.destroy
+      if @question.question_attachment.present?
+        @question.question_attachment.destroy
+      end
+      if @question.answers.first.present?
+        @question.answers.each do |answer|
+          answer.destroy
+          if answer.answer_attachment.present?
+            answer.answer_attachment.destroy
+          end
+        end
       end
     end
     redirect_to(questions_url, notice: '質問を削除しました')
