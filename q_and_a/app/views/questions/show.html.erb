@@ -1,3 +1,5 @@
+<%= render 'layouts/alerts', notice: notice, alert: alert %>
+
 <div id="question_show">
   <h2>質問詳細</h2>
   <div class="edit-btn"><%= link_to('編集', edit_question_url(@question), class: 'btn') %></div>
@@ -104,5 +106,5 @@
       </table>
     </div>
   <% end %>
+  <%= link_to('戻る', questions_path) %>
 </div>
-<%= link_to('戻る', questions_path)%>

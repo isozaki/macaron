@@ -24,6 +24,8 @@ class QuestionsController < ApplicationController
 
   def create
     @question = Question.new(question_params)
+    @question.created_user_name = logined_user.name
+    @question.updated_user_name = logined_user.name
     
     ActiveRecord::Base.transaction do
       fail ActiveRecord::RecordInvalid.new(@question) unless @question.valid?
@@ -44,6 +46,7 @@ class QuestionsController < ApplicationController
     @question = Question.where(id: params[:id]).first
     unless @question
       redirect_to(questions_url, alert: '対象が見つかりません')
+      return
     end
   end
 
@@ -59,12 +62,13 @@ class QuestionsController < ApplicationController
     end
 
     ActiveRecord::Base.transaction do
+      @question.updated_user_name = logined_user.name
       @question.update!(question_params)
     end
 
     redirect_to(question_url(@question), notice: '質問を更新しました')
   rescue ActiveRecord::RecordInvalid => e
-     render(:edit)
+    render(:edit)
   end
 
   def destroy
@@ -72,15 +76,21 @@ class QuestionsController < ApplicationController
 
     ActiveRecord::Base.transaction do
       @question.destroy
-      @question.question_attachment.destroy
-      @question.answers.each do |answer|
-        answer.destroy
-        answer.answer_attachment.destroy
+      if @question.question_attachment.present?
+        @question.question_attachment.destroy
+      end
+      if @question.answers.first.present?
+        @question.answers.each do |answer|
+          answer.destroy
+          if answer.answer_attachment.present?
+            answer.answer_attachment.destroy
+          end
+        end
       end
     end
     redirect_to(questions_url, notice: '質問を削除しました')
   rescue => e
-     redirect_to(questions_url, alert: '質問の削除に失敗しました')
+    redirect_to(questions_url, alert: '質問の削除に失敗しました')
   end
 
   def edit_status
@@ -107,12 +117,13 @@ class QuestionsController < ApplicationController
     end
 
     ActiveRecord::Base.transaction do
+      @question.updated_user_name = logined_user.name
       @question.update!(question_params)
     end
 
     redirect_to(question_url(@question), notice: 'ステータスを更新しました')
   rescue ActiveRecord::RecordInvalid => e
-     render(:edit)
+    render(:edit)
   end
 
   def question_params

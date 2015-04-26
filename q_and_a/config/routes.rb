@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resource :session, except: [:show, :update]
+
+  resources :menus, only: [:index]
+
   resources :questions do
     member do
       get :edit_status
@@ -16,7 +20,9 @@ Rails.application.routes.draw do
     end
   end
 
-  root :to => 'questions#index'
+  resources :users
+
+  root :to => 'sessions#new'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

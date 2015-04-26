@@ -1,0 +1,16 @@
+<div id='alert'>
+  <% if notice %>
+    <div class="alert-success">
+      <%= link_to('x', '#', :class => 'close', :'data-dismiss' => 'alert') %>
+      <h4 class="alert-heading">情報</h4>
+      <%= notice %>
+    </div>
+  <% end %>
+  <% if alert %>
+    <div class="alert-error">
+      <%= link_to('x', '#', :class => 'close', :'data-dismiss' => 'alert') %>
+      <h4 class="alert-heading">エラー!!</h4>
+      <%= alert %>
+    </div>
+  <% end %>
+</div>

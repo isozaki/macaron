@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 describe QuestionAttachmentsController do
+  before(:each) do
+    logined_by(mock_logined_user)
+  end
+
   describe "GET 'show'" do
     before do
       @question = FactoryGirl.create(:question)

@@ -1,0 +1,22 @@
+<%= render 'layouts/alerts', notice: notice, alert: alert %>
+
+<div id="login-area">
+  <h2>ログイン画面</h2>
+  <%= link_to('利用者登録', new_user_path) %>
+  <%= form_tag(session_path) do %>
+    <table>
+      <tr>
+        <td>ログインID</td>
+        <td><%= text_field_tag(:login, params[:login]) %></td>
+      </tr>
+      <tr>
+        <td>パスワード</td>
+        <td><%= password_field_tag(:pass, params[:pass]) %></td>
+      </tr>
+    </table>
+    <%= submit_tag('ログイン') %>
+  <% end %>
+  <% if session[:user_id] %>
+    <%= link_to('メニュー', menus_path) %>
+  <% end %>
+</div>

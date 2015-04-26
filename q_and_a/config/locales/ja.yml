@@ -10,3 +10,10 @@ ja:
     review: '検討中'
     completion: '完了'
     dismissal: '却下'
+  views:
+    pagination:
+      truncate: "…"
+      first: First
+      next: Next
+      previous: Prev
+      last: Last

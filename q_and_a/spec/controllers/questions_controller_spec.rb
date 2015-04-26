@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, :type => :controller do
+  before(:each) do
+    @logined_user = logined_by(mock_logined_user)
+  end
 
   describe "GET index" do
     before(:each) do
@@ -102,8 +105,9 @@ RSpec.describe QuestionsController, :type => :controller do
           'charge' => '担当者',
           'priority' => Question::PRIORITY[:mid].to_s,
           'limit_datetime' => 1.days.since.strftime('%Y%m%d'),
-          'created_user_name' => '質問者',
         ).and_return(@question)
+        expect(@question).to receive(:created_user_name=).with(@logined_user.name)
+        expect(@question).to receive(:updated_user_name=).with(@logined_user.name)
         expect(@question).to receive(:save!)
 
         post :create, question: {
@@ -112,7 +116,6 @@ RSpec.describe QuestionsController, :type => :controller do
           'charge' => '担当者',
           'priority' => Question::PRIORITY[:mid].to_s,
           'limit_datetime' => 1.days.since.strftime('%Y%m%d'),
-          'created_user_name' => '質問者',
         }
       end
 
@@ -128,6 +131,8 @@ RSpec.describe QuestionsController, :type => :controller do
     context '質問の登録に失敗するとき' do
       before(:each) do
         expect(@question).to receive(:valid?).and_return false
+        expect(@question).to receive(:created_user_name=).with(@logined_user.name)
+        expect(@question).to receive(:updated_user_name=).with(@logined_user.name)
 
         post :create, question: { title: 'タイトル' }
       end
@@ -200,12 +205,11 @@ RSpec.describe QuestionsController, :type => :controller do
       before(:each) do
         allow(Question).to receive_message_chain(:where, :first).and_return(@question)
         expect(@question).to receive(:update!)
-          .with('title' => 'タイトル変更',
-                'updated_user_name' => '更新者A')
+          .with('title' => 'タイトル変更')
+          expect(@question).to receive(:updated_user_name=).with(@logined_user.name)
 
         patch(:update, id: @question.id, question: {
-          title: 'タイトル変更',
-          updated_user_name: '更新者A'
+          title: 'タイトル変更'
         })
       end
 
@@ -220,13 +224,12 @@ RSpec.describe QuestionsController, :type => :controller do
       before(:each) do
         allow(Question).to receive_message_chain(:where, :first).and_return(@question)
         expect(@question).to receive(:update!)
-          .with('title' => 'タイトル変更',
-                'updated_user_name' => '更新者A')
+          .with('title' => 'タイトル変更')
           .and_raise(ActiveRecord::RecordInvalid.new(@question))
+        expect(@question).to receive(:updated_user_name=).with(@logined_user.name)
 
         patch(:update, id: @question.id, question: {
-          title: 'タイトル変更',
-          updated_user_name: '更新者A'
+          title: 'タイトル変更'
         })
       end
 
@@ -241,8 +244,7 @@ RSpec.describe QuestionsController, :type => :controller do
       before(:each) do
 
         patch(:update, id: '', question: {
-          title: 'タイトル変更',
-          updated_user_name: '更新者'
+          title: 'タイトル変更'
         })
       end
 
@@ -258,8 +260,7 @@ RSpec.describe QuestionsController, :type => :controller do
         allow(Question).to receive_message_chain(:where, :first).and_return(nil)
 
         patch(:update, id: '0', question: {
-            title: 'タイトル変更',
-            updated_user_name: '更新者A'
+            title: 'タイトル変更'
         })
       end
 
@@ -380,12 +381,11 @@ RSpec.describe QuestionsController, :type => :controller do
       before(:each) do
         allow(Question).to receive_message_chain(:where, :first).and_return(@question)
         expect(@question).to receive(:update!)
-          .with('status' => Question::STATUS[:answered].to_s,
-                'updated_user_name' => '更新者A')
+          .with('status' => Question::STATUS[:answered].to_s)
+        expect(@question).to receive(:updated_user_name=).with(@logined_user.name)
 
         patch(:update_status, id: @question.id, question: {
           status: Question::STATUS[:answered].to_s,
-          updated_user_name: '更新者A'
         })
       end
 
@@ -400,13 +400,12 @@ RSpec.describe QuestionsController, :type => :controller do
       before(:each) do
         allow(Question).to receive_message_chain(:where, :first).and_return(@question)
         expect(@question).to receive(:update!)
-          .with('status' => Question::STATUS[:answered].to_s,
-                'updated_user_name' => '更新者A')
+          .with('status' => Question::STATUS[:answered].to_s)
           .and_raise(ActiveRecord::RecordInvalid.new(@question))
+        expect(@question).to receive(:updated_user_name=).with(@logined_user.name)
 
         patch(:update_status, id: @question.id, question: {
-          status: Question::STATUS[:answered],
-          updated_user_name: '更新者A'
+          status: Question::STATUS[:answered]
         })
       end
 
@@ -421,8 +420,7 @@ RSpec.describe QuestionsController, :type => :controller do
       before(:each) do
 
         patch(:update, id: '', question: {
-          status: Question::STATUS[:answered],
-          updated_user_name: '更新者'
+          status: Question::STATUS[:answered]
         })
       end
 
@@ -438,8 +436,7 @@ RSpec.describe QuestionsController, :type => :controller do
         allow(Question).to receive_message_chain(:where, :first).and_return(nil)
 
         patch(:update, id: '0', question: {
-            status: Question::STATUS[:answered],
-            updated_user_name: '更新者A'
+            status: Question::STATUS[:answered]
         })
       end
 
