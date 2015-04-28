@@ -20,5 +20,12 @@
       <td>パスワード(確認)</td>
       <td><%= f.password_field(:password_confirmation) %></td>
     </tr>
+    <tr>
+      <td>管理者権限</td>
+      <td>
+        <%= f.radio_button(:admin, User::ADMIN[:none]) %>無
+        <%= f.radio_button(:admin, User::ADMIN[:admin]) %>有
+      </td>
+    </tr>
   </tbody>
 </table>

@@ -18,6 +18,10 @@
           <td class="title">ログインID</td>
           <td><%= @user.login %></td>
         </tr>
+        <tr>
+          <td class="title">管理者権限</td>
+          <td><%= admin_name(@user.admin) %></td>
+        <tr>
       </tbody>
     </table>
   </div>

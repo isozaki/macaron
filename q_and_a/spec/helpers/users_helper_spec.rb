@@ -11,4 +11,23 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe UsersHelper, :type => :helper do
+  describe 'admin_name' do
+    context 'adminが0のとき' do
+      before(:each) do
+        @user = mock_model(User, admin: 0)
+        @admin = @user.admin
+      end
+
+      it { expect(helper.admin_name(@admin)).to eq '無' }
+    end
+
+    context 'adminが1のとき' do
+      before(:each) do
+        @user = mock_model(User, admin: 1)
+        @admin = @user.admin
+      end
+
+      it { expect(helper.admin_name(@admin)).to eq '有' }
+    end
+  end
 end

@@ -13,6 +13,11 @@
 #
 
 class User < ActiveRecord::Base
+  ADMIN = {
+    none: 0,
+    admin: 1
+  }
+
   has_secure_password
 
   validates(:name, presence: true, length: { maximum: 64 })
@@ -20,6 +25,7 @@ class User < ActiveRecord::Base
   validates(:login, presence: true, on: :create, uniqueness: true, length: { maximum: 255 }, format: { with: /\A[a-zA-Z0-9]+\z/i })
   validates(:password, presence: true, on: :create, length: { maximum: 16, minimum: 4 }, confirmation: true,
             format: { with: /\A[a-zA-Z0-9]+\z/i })
+  validates(:admin, presence: true)
 
   def self.search_user(params)
     params[:page] ||= 1

@@ -21,7 +21,8 @@ RSpec.describe User, :type => :model do
         name: 'テスト太郎',
         name_kana: 'テストタロウ',
         login: 'login',
-        password: 'password'
+        password: 'password',
+        admin: 1
       }
     end
 
@@ -149,6 +150,20 @@ RSpec.describe User, :type => :model do
 
       context '最大長より長い文字列が指定されたとき' do
         before(:each) { subject.password = 'a' * 17 }
+
+        it { is_expected.not_to be_valid }
+      end
+    end
+
+    describe 'admin' do
+      context 'nilが指定されたとき' do
+        before(:each) { subject.admin = nil }
+
+        it { is_expected.not_to be_valid }
+      end
+
+      context 'brankが指定されたとき' do
+        before(:each) { subject.admin = '' }
 
         it { is_expected.not_to be_valid }
       end

@@ -9,7 +9,8 @@ user1 = FactoryGirl.create(:user,
                            name: 'テスト太郎',
                            name_kana: 'テストタロウ',
                            login: 'login',
-                           password: 'password'
+                           password: 'password',
+                           admin: 1
                           )
 
 question1 = FactoryGirl.create(:question,

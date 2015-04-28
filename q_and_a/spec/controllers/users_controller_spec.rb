@@ -104,6 +104,7 @@ RSpec.describe UsersController, :type => :controller do
           'name_kana' => 'テストタロウ',
           'login' => 'login',
           'password' => 'password',
+          'admin' => '1'
         ).and_return(@user)
         expect(@user).to receive(:save!)
 
@@ -111,7 +112,8 @@ RSpec.describe UsersController, :type => :controller do
           'name' => 'テスト太郎',
           'name_kana' => 'テストタロウ',
           'login' => 'login',
-          'password' => 'password'
+          'password' => 'password',
+          'admin' => 1
         }
       end
 
@@ -200,11 +202,13 @@ RSpec.describe UsersController, :type => :controller do
         allow(User).to receive_message_chain(:where, :first).and_return(@user)
         expect(@user).to receive(:update!)
           .with('name' => 'テスト太郎',
-                'name_kana' => 'テストタロウ')
+                'name_kana' => 'テストタロウ',
+                'admin' => '1')
 
         patch(:update, id: @user.id, user: {
           name: 'テスト太郎',
-          name_kana: 'テストタロウ'
+          name_kana: 'テストタロウ',
+          admin: 1
         })
       end
 
@@ -220,12 +224,14 @@ RSpec.describe UsersController, :type => :controller do
         allow(User).to receive_message_chain(:where, :first).and_return(@user)
         expect(@user).to receive(:update!)
           .with('name' => 'テスト太郎',
-                'name_kana' => 'テストタロウ')
+                'name_kana' => 'テストタロウ',
+                'admin' => '1')
           .and_raise(ActiveRecord::RecordInvalid.new(@user))
 
         patch(:update, id: @user.id, user: {
           name: 'テスト太郎',
-          name_kana: 'テストタロウ'
+          name_kana: 'テストタロウ',
+          admin: 1
         })
       end
 
@@ -241,7 +247,8 @@ RSpec.describe UsersController, :type => :controller do
 
         patch(:update, id: '', user: {
           name: 'テスト太郎',
-          name_kana: 'テストタロウ'
+          name_kana: 'テストタロウ',
+          admin: 1
         })
       end
 
@@ -258,7 +265,8 @@ RSpec.describe UsersController, :type => :controller do
 
         patch(:update, id: '0', user: {
             name: 'テスト太郎',
-            name_kana: 'テストタロウ'
+            name_kana: 'テストタロウ',
+            admin: 1
         })
       end
 
