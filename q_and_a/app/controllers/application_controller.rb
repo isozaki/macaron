@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   before_action :check_login
 
-  helper_method :logined_user, :check_login
+  helper_method :logined_user, :check_login, :check_admin
 
   def check_login
     if session[:user_id]
