@@ -2,14 +2,15 @@
 #
 # Table name: users
 #
-#  id         :integer          not null, primary key
-#  name       :string(64)       not null
-#  name_kana  :string(64)       not null
-#  login      :string(255)      not null
-#  password   :string(16)       not null
-#  deleted    :integer          default(0), not null
-#  created_at :datetime
-#  updated_at :datetime
+#  id              :integer          not null, primary key
+#  name            :string(64)       not null
+#  name_kana       :string(64)       not null
+#  login           :string(255)      not null
+#  password_digest :string(255)      not null
+#  deleted         :integer          default(0), not null
+#  created_at      :datetime
+#  updated_at      :datetime
+#  admin           :integer          default(0), not null
 #
 
 class User < ActiveRecord::Base
@@ -26,6 +27,8 @@ class User < ActiveRecord::Base
   validates(:password, presence: true, on: :create, length: { maximum: 16, minimum: 4 }, confirmation: true,
             format: { with: /\A[a-zA-Z0-9]+\z/i })
   validates(:admin, presence: true)
+
+  has_many(:matter_users)
 
   def self.search_user(params)
     params[:page] ||= 1
