@@ -184,7 +184,7 @@ RSpec.describe UsersController, :type => :controller do
         get :edit, id: @user.id
       end
 
-      it '質問編集画面が表示されること' do
+      it '利用者編集画面が表示されること' do
         expect(response).to render_template(:edit)
       end
 
@@ -252,7 +252,7 @@ RSpec.describe UsersController, :type => :controller do
         })
       end
 
-      it '質問一覧画面に遷移すること' do
+      it '利用者一覧画面に遷移すること' do
         expect(response).to redirect_to(users_url)
       end
 
@@ -270,7 +270,7 @@ RSpec.describe UsersController, :type => :controller do
         })
       end
 
-      it '質問一覧画面に遷移すること' do
+      it '利用者一覧画面に遷移すること' do
         expect(response).to redirect_to(users_url)
       end
 
