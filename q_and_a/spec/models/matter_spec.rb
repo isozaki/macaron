@@ -49,4 +49,36 @@ RSpec.describe Matter, :type => :model do
       end
     end
   end
+
+  describe Matter, '案件を検索するとき' do
+    before(:each) do
+      FactoryGirl.create(:matter, title: 'タイトル1')
+
+      FactoryGirl.create(:matter, title: 'タイトル2')
+    end
+
+    context 'タイトルを指定しないとき' do
+      it do
+        expect do
+          Matter.search_matter(title: '')
+        end.not_to raise_error
+      end
+
+      it do
+        expect(Matter.search_matter(title: '').count).to eq 2
+      end
+    end
+
+    context 'タイトルが指定されているとき' do
+      it do
+        expect do
+          Matter.search_matter(title: 'タイトル1')
+        end.not_to raise_error
+      end
+
+      it do
+        expect(Matter.search_matter(title: 'タイトル1').count).to eq 1
+      end
+    end
+  end
 end

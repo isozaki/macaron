@@ -5,6 +5,23 @@ RSpec.describe MattersController, :type => :controller do
     logined_by(mock_logined_user)
   end
 
+  describe "GET index" do
+    before(:each) do
+      @matters = double
+      expect(Matter).to receive(:search_matter)
+        .with(hash_including('title' => 'タイトル'))
+        .and_return @matters
+
+      get :index, title: 'タイトル'
+    end
+
+    it { expect(response).to render_template(:index) }
+    it { expect(assigns(:matters)).to eq @matters }
+  end
+
+  describe "GET show" do
+  end
+
   describe "GET new" do
     before(:each) do
       @matter = mock_model(Matter)

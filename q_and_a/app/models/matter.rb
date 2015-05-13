@@ -13,4 +13,10 @@ class Matter < ActiveRecord::Base
   validates(:title, presence: true, length: { maximum: 255 })
   
   has_many(:matter_users)
+
+  def self.search_matter(params)
+    matters = Matter.order('id ASC')
+    matters.where!('title LIKE ?', "%#{params[:title]}%") unless params[:title].blank?
+    matters
+  end
 end

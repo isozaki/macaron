@@ -1,5 +1,6 @@
 class MattersController < ApplicationController
   def index
+    @matters = Matter.search_matter(params)
   end
 
   def show
