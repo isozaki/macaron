@@ -1,16 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe MattersController, :type => :controller do
-
-  describe "GET index" do
-  end
-
-  describe "GET show" do
+  before(:each) do
+    logined_by(mock_logined_user)
   end
 
   describe "GET new" do
     before(:each) do
-      logined_by(mock_logined_user)
       @matter = mock_model(Matter)
       expect(Matter).to receive(:new).and_return(@matter)
 
@@ -28,7 +24,6 @@ RSpec.describe MattersController, :type => :controller do
 
   describe "POST create" do
     before(:each) do
-      logined_by(mock_logined_user)
       @matter = mock_model(Matter)
 
       allow(Matter).to receive(:new).and_return(@matter)
@@ -65,5 +60,119 @@ RSpec.describe MattersController, :type => :controller do
   end
 
   describe "GET edit" do
+    before(:each) do
+      @matter = mock_model(Matter, id: 1)
+      @matters = []
+    end
+
+    context '対象が指定されていないとき' do
+      before(:each) do
+        get :edit, id: ''
+      end
+
+      it '案件一覧画面が表示されること' do
+        expect(response).to redirect_to(matters_url)
+      end
+
+      it 'アラートが表示されること' do
+        expect(flash[:alert]).to eq '対象が指定されていません'
+      end
+    end
+
+    context '対象が存在しないとき' do
+      before(:each) do
+        expect(Matter).to receive(:where).with(id: 0.to_s).and_return(@matters)
+        expect(@matters).to receive(:first).and_return(nil)
+
+        get :edit, id: 0
+      end
+
+      it '案件一覧画面が表示されること' do
+        expect(response).to redirect_to(matters_url)
+      end
+
+      it 'アラートが表示されること' do
+        expect(flash[:alert]).to eq '対象が見つかりません'
+      end
+    end
+
+    context '対象が存在するとき' do
+      before(:each) do
+        expect(Matter).to receive(:where).with(id: @matter.id.to_s).and_return(@matters)
+        expect(@matters).to receive(:first).and_return(@matter)
+
+        get :edit, id: @matter.id
+      end
+
+      it '案件編集画面が表示されること' do
+        expect(response).to render_template(:edit)
+      end
+
+      it { expect(assigns(:matter)).to eq @matter }
+    end
+  end
+
+  describe "PATCH update" do
+    before(:each) do
+      @matter = mock_model(Matter, id: 1)
+    end
+
+    context '成功するとき' do
+      before(:each) do
+        allow(Matter).to receive_message_chain(:where, :first).and_return(@matter)
+        expect(@matter).to receive(:update!).with('title' => 'タイトル')
+
+        patch(:update, id: @matter.id, matter: { title: 'タイトル' })
+      end
+
+      it '案件詳細画面へ遷移すること' do
+        expect(response).to redirect_to(matter_url(@matter))
+      end
+
+      it { expect(flash[:notice]).to eq '案件を更新しました' }
+    end
+
+    context '失敗するとき' do
+      before(:each) do
+        allow(Matter).to receive_message_chain(:where, :first).and_return(@matter)
+        expect(@matter).to receive(:update!).with('title' => 'タイトル')
+          .and_raise(ActiveRecord::RecordInvalid.new(@matter))
+
+        patch(:update, id: @matter.id, matter: { title: 'タイトル' })
+      end
+
+      it '案件編集画面を再表示すること' do
+        expect(response).to render_template(:edit)
+      end
+
+      it { expect(assigns(:matter)).to eq @matter }
+    end
+
+    context '対象が指定されていないとき' do
+      before(:each) do
+
+        patch(:update, id: '', matter: { title: 'タイトル' })
+      end
+
+      it '案件一覧画面に遷移すること' do
+        expect(response).to redirect_to(matters_url)
+      end
+
+      it { expect(flash[:alert]).to eq '対象が指定されていません' }
+    end
+
+    context '対象が存在しないとき' do
+      before(:each) do
+        allow(Matter).to receive_message_chain(:where, :first).and_return(nil)
+
+        patch(:update, id: '0', matter: { title: 'タイトル' })
+      end
+
+      it '案件一覧画面に遷移すること' do
+        expect(response).to redirect_to(matters_url)
+      end
+
+      it { expect(flash[:alert]).to eq '対象が見つかりません' }
+    end
   end
 end
