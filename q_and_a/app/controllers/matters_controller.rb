@@ -72,4 +72,16 @@ class MattersController < ApplicationController
 
     params.require(:matter).permit(:title)
   end
+
+  def destroy
+    @matter = Matter.find_by_id(params[:id])
+
+    ActiveRecord::Base.transaction do
+      @matter.destroy
+
+      redirect_to(matters_url, notice: '案件を削除しました')
+    end
+  rescue => e
+    redirect_to(matters_url, alert: '案件の削除に失敗しました')
+  end
 end

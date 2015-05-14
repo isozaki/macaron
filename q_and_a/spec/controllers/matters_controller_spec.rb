@@ -242,4 +242,41 @@ RSpec.describe MattersController, :type => :controller do
       it { expect(flash[:alert]).to eq '対象が見つかりません' }
     end
   end
+
+  describe 'DELETE destroy' do
+    before(:each) do
+      @matter = mock_model(Matter, id: 1)
+    end
+
+    context '成功するとき' do
+      before(:each) do
+        expect(Matter).to receive(:find_by_id).and_return @matter
+
+        delete :destroy, id: @matter.id
+      end
+
+      it '案件一覧画面にリダイレクトされること' do
+        expect(response).to redirect_to(matters_url)
+      end
+
+      it '削除完了メッセージが表示されること' do
+        expect(flash[:notice]).to eq('案件を削除しました')
+      end
+    end
+
+    context '失敗するとき' do
+      before(:each) do
+        expect(Matter).to receive(:find_by_id).and_return @matter
+        expect(@matter).to receive(:destroy).and_raise
+
+        delete :destroy, id: @matter.id
+      end
+
+      it '案件一覧画面に遷移すること' do
+        expect(response).to redirect_to(matters_url)
+      end
+
+      it { expect(flash[:alert]).to eq('案件の削除に失敗しました') }
+    end
+  end
 end
