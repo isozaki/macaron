@@ -20,6 +20,7 @@
     <table>
       <thead>
         <tr>
+          <th>ID</th>
           <th>氏名</th>
           <th>氏名(カナ)</th>
           <th>ログインID</th>
@@ -29,6 +30,7 @@
       <tbody>
       <% @users.each do |user| %>
         <tr>
+          <td style="width: 50px;"><%= user.id %></td>
           <td style="width: 100px;"><%= user.name %></td>
           <td style="width: 100px;"><%= user.name_kana %></td>
           <td style="width: 100px;" ><%= user.login %></td>
