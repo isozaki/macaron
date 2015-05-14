@@ -1,2 +1,18 @@
-<h1>Matters#show</h1>
-<p>Find me in app/views/matters/show.html.erb</p>
+<%= render 'layouts/alerts', notice: notice, alert: alert %>
+
+<div id="question_show">
+  <h2>案件詳細</h2>
+  <div class="edit-btn"><%= link_to('編集', edit_matter_url(@matter), class: 'btn') %></div>
+  <div class="question_area">
+    <table>
+      <tbody>
+        <tr>
+          <td class="title">タイトル</td>
+          <td><%= @matter.title %></td>
+        </tr>
+        <tr>
+      </tbody>
+    </table>
+  </div>
+  <%= link_to('戻る', matters_path) %>
+</div>

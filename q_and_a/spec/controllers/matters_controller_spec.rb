@@ -20,6 +20,56 @@ RSpec.describe MattersController, :type => :controller do
   end
 
   describe "GET show" do
+    before(:each) do
+      @matter = mock_model(Matter)
+      @matters = [@matter]
+    end
+
+    context '対象が指定されていないとき' do
+      before(:each) do
+        get :show, id: ''
+      end
+
+      it '案件一覧画面が表示されること' do
+        expect(response).to redirect_to(matters_url)
+      end
+
+      it 'アラートが表示されること' do
+        expect(flash[:alert]).to eq '対象が指定されていません'
+      end
+    end
+
+    context '対象が存在しないとき' do
+      before(:each) do
+        allow(Matter).to receive(:where).with(id: 0.to_s).and_return(@matters)
+        expect(@matters).to receive(:first).and_return(nil)
+
+        get :show, id: 0
+      end
+
+      it '案件一覧画面が表示されること' do
+        expect(response).to redirect_to(matters_url)
+      end
+
+      it 'アラートが表示されること' do
+        expect(flash[:alert]).to eq '対象が見つかりません'
+      end
+    end
+
+    context '対象が存在するとき' do
+      before(:each) do
+        allow(Matter).to receive(:where).with(id: @matter.id.to_s).and_return(@matters)
+        expect(@matters).to receive(:first).and_return(@matter)
+
+        get :show, id: @matter.id
+      end
+
+      it '案件詳細画面が表示されること' do
+        expect(response).to render_template(:show)
+      end
+
+      it { expect(assigns(:matter)).to eq @matter }
+    end
   end
 
   describe "GET new" do

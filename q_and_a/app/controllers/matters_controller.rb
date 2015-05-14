@@ -4,6 +4,16 @@ class MattersController < ApplicationController
   end
 
   def show
+    if params[:id].blank?
+      redirect_to(matters_url, alert: '対象が指定されていません')
+      return
+    end
+
+    @matter = Matter.where(id: params[:id]).first
+    unless @matter
+      redirect_to(matters_url, alert: '対象が見つかりません')
+      return
+    end
   end
 
   def new
