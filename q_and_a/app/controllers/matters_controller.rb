@@ -10,6 +10,7 @@ class MattersController < ApplicationController
     end
 
     @matter = Matter.where(id: params[:id]).first
+    @matter_users = MatterUser.where(matter_id: params[:id])
     unless @matter
       redirect_to(matters_url, alert: '対象が見つかりません')
       return
@@ -83,5 +84,31 @@ class MattersController < ApplicationController
     end
   rescue => e
     redirect_to(matters_url, alert: '案件の削除に失敗しました')
+  end
+
+  def add_user
+    @matter = Matter.where('id = ?', params[:id]).first
+
+    unless @matter
+      redirect_to(matters_path, '対象の案件が見つかりません。')
+    end
+
+    @user = User.where('id = ?', params[:user_id]).first
+    unless @user
+      redirect_to(new_user_matter_url(@matter), alert: '参加者の追加に失敗しました。')
+    else
+      @matter_user = MatterUser.new(user_id: @user.id, matter_id: @matter.id)
+      @matter_user.save!
+      redirect_to(matter_path(@matter), notice: '参加者を追加しました。')
+    end
+  end
+
+  def new_user
+    @matter = Matter.where('id = ?', params[:id]).first
+    @matter_user = MatterUser.new
+    @users = User.search_user(params)
+  end
+
+  def remove_user
   end
 end

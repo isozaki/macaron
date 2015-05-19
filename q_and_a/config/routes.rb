@@ -22,7 +22,13 @@ Rails.application.routes.draw do
 
   resources :users
 
-  resources :matters
+  resources :matters do
+    member do
+      post :add_user
+      get :new_user
+      delete :remove_user
+    end
+  end
 
   root :to => 'sessions#new'
 

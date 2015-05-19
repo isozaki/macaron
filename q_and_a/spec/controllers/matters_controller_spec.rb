@@ -58,8 +58,13 @@ RSpec.describe MattersController, :type => :controller do
 
     context '対象が存在するとき' do
       before(:each) do
+        @user = mock_model(User)
+        @matter_user = mock_model(MatterUser, matter: @matter, user: @user)
+        @matter_users = [@matter_user]
+
         allow(Matter).to receive(:where).with(id: @matter.id.to_s).and_return(@matters)
         expect(@matters).to receive(:first).and_return(@matter)
+        allow(MatterUser).to receive(:where).with(matter_id: @matter.id.to_s).and_return @matter_users
 
         get :show, id: @matter.id
       end
@@ -277,6 +282,83 @@ RSpec.describe MattersController, :type => :controller do
       end
 
       it { expect(flash[:alert]).to eq('案件の削除に失敗しました') }
+    end
+  end
+
+  describe 'POST add_user' do
+    before(:each) do
+      @user1 = mock_model(User, id: 1)
+      @user2 = mock_model(User, id: 2)
+      @matter = mock_model(Matter, id: 1)
+      @matter_user = mock_model(MatterUser)
+      @users = [@user1, @user2]
+
+      MatterUser.delete_all
+    end
+
+    context '参加者の追加に成功するとき' do
+      before(:each) do
+        allow(Matter).to receive_message_chain(:where, :first).and_return @matter
+
+        expect(User).to receive(:where).with('id = ?', '1').and_return @users
+        expect(@users).to receive(:first).and_return @user1
+
+        expect(MatterUser).to receive(:new)
+          .with(user_id: @user1.id, matter_id: @matter.id)
+          .and_return @matter_user
+        expect(@matter_user).to receive(:save!)
+
+        post :add_user, id: @matter.id, user_id: @user1.id
+      end
+
+      it 'showにリダイレクトされること' do
+        expect(response).to redirect_to(matter_url(@matter))
+      end
+
+      it 'noticeに追加完了メッセージが設定されること' do
+        expect(flash[:notice]).to eq('参加者を追加しました。')
+      end
+    end
+
+    context '参加者の登録に失敗するとき' do
+      before(:each) do
+        allow(Matter).to receive_message_chain(:where, :first).and_return @matter
+
+        expect(User).to receive(:where).with('id = ?', nil).and_return @users
+        expect(@users).to receive(:first).and_return nil
+
+        post :add_user, id: @matter.id, user_id: nil
+      end
+
+      it '利用者追加画面にリダイレクトされること' do
+        expect(response).to redirect_to(new_user_matter_url(@matter))
+      end
+
+      it 'alertにエラーメッセージが設定されること' do
+        expect(flash[:alert]).to eq('参加者の追加に失敗しました。')
+      end
+    end
+  end
+
+  describe 'GET new_user' do
+    before(:each) do
+      @matter = mock_model(Matter, id: 1)
+      @user = mock_model(User, id: 1)
+      @users = [ @user ]
+      @matter_user = mock_model(MatterUser)
+
+      expect(MatterUser).to receive(:new).and_return(@matter_user)
+      expect(User).to receive(:search_user).and_return @users
+
+      get :new_user, id: 1
+    end
+
+    it '利用者新規登録画面を呼び出すこと' do
+      expect(response).to render_template(:new_user)
+    end
+
+    it '新規レコード用の@matter_userが設定されること' do
+      expect(assigns(:matter_user)).to be @matter_user
     end
   end
 end

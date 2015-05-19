@@ -39,7 +39,7 @@
         margin-bottom: 10px;
     }
 
-    .user_area {
+    .matter_area {
         td {
             width: 300px;
             text-align: left;
@@ -51,6 +51,23 @@
             width:100px;
         }
     }
+
+    .add-user {
+        margin-top: 10px;
+        margin-bottom: 10px;
+
+        th {
+            height: auto;
+            border: 1px solid;
+            background-color: #778899;
+        }
+
+        td {
+            width: auto;
+            text-align: center;
+            border: 1px solid;
+        }
+    }
 }
 
 #new-matter {
@@ -59,4 +76,33 @@
 
 #edit-matter {
     margin-left: 30px;
+}
+
+#add-user {
+    margin-left: 30px;
+
+    .form_area {
+    }
+    
+    .search_area {
+        margin-top: 10px;
+        border: 2px solid;
+        padding: 10px;
+        width: 600px;
+    }
+    .list_area {
+        margin-top: 10px;
+
+        th {
+            height: auto;
+            border: 1px solid;
+            background-color: #778899;
+        }
+
+        td {
+            width: auto;
+            text-align: center;
+            border: 1px solid;
+        }
+    }
 }

@@ -314,7 +314,4 @@ RSpec.describe UsersController, :type => :controller do
       it { expect(flash[:alert]).to eq('利用者の削除に失敗しました') }
     end
   end
-
-  describe "GET login" do
-  end
 end
