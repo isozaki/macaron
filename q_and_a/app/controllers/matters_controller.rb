@@ -88,14 +88,15 @@ class MattersController < ApplicationController
 
   def add_user
     @matter = Matter.where('id = ?', params[:id]).first
-
     unless @matter
-      redirect_to(matters_path, '対象の案件が見つかりません。')
+      redirect_to(matters_path, alert: '対象の案件が見つかりません。')
+      return
     end
 
     @user = User.where('id = ?', params[:user_id]).first
     unless @user
-      redirect_to(new_user_matter_url(@matter), alert: '参加者の追加に失敗しました。')
+      redirect_to(new_user_matter_url(@matter), alert: '対象の参加者が見つかりません。')
+      return
     else
       @matter_user = MatterUser.new(user_id: @user.id, matter_id: @matter.id)
       @matter_user.save!
@@ -110,5 +111,19 @@ class MattersController < ApplicationController
   end
 
   def remove_user
+    @matter = Matter.where('id = ?', params[:id]).first
+    @matter_user = MatterUser.find_by_id(params[:matter_user_id])
+    unless @matter_user
+      redirect_to(matter_path(@matter), alert: '対象の参加者が見つかりません。')
+      return
+    end
+
+    ActiveRecord::Base.transaction do
+      @matter_user.destroy
+
+      redirect_to(matter_path(@matter), notice: '参加者を削除しました。')
+    end
+  rescue => e
+    redirect_to(matter_path(@matter), alert: '参加者の削除に失敗しました。')
   end
 end

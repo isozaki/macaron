@@ -320,14 +320,13 @@ RSpec.describe MattersController, :type => :controller do
       end
     end
 
-    context '参加者の登録に失敗するとき' do
+    context '存在しない利用者を指定するとき' do
       before(:each) do
         allow(Matter).to receive_message_chain(:where, :first).and_return @matter
-
-        expect(User).to receive(:where).with('id = ?', nil).and_return @users
+        expect(User).to receive(:where).with('id = ?', '1').and_return @users
         expect(@users).to receive(:first).and_return nil
 
-        post :add_user, id: @matter.id, user_id: nil
+        post :add_user, id: @matter.id, user_id: @user1.id
       end
 
       it '利用者追加画面にリダイレクトされること' do
@@ -335,7 +334,23 @@ RSpec.describe MattersController, :type => :controller do
       end
 
       it 'alertにエラーメッセージが設定されること' do
-        expect(flash[:alert]).to eq('参加者の追加に失敗しました。')
+        expect(flash[:alert]).to eq('対象の参加者が見つかりません。')
+      end
+    end
+
+    context '存在しない案件を指定するとき' do
+      before(:each) do
+        allow(Matter).to receive_message_chain(:where, :first).and_return nil
+
+        post :add_user, id: @matter.id, user_id: @user1.id
+      end
+
+      it '案件一覧画面にリダイレクトされること' do
+        expect(response).to redirect_to(matters_path)
+      end
+
+      it 'alertにエラーメッセージが設定されること' do
+        expect(flash[:alert]).to eq('対象の案件が見つかりません。')
       end
     end
   end
@@ -359,6 +374,66 @@ RSpec.describe MattersController, :type => :controller do
 
     it '新規レコード用の@matter_userが設定されること' do
       expect(assigns(:matter_user)).to be @matter_user
+    end
+  end
+
+  describe 'DELETE remove_user' do
+    before(:each) do
+      @matter = mock_model(Matter, id: 1)
+      @user = mock_model(User, id:1)
+      @matter_user = mock_model(MatterUser, matter: @matter, user: @user)
+    end
+
+    context '成功するとき' do
+      before(:each) do
+        allow(Matter).to receive_message_chain(:where, :first).and_return @matter
+
+        expect(MatterUser).to receive(:find_by_id).and_return @matter_user
+        expect(@matter_user).to receive(:destroy)
+
+        delete :remove_user, id: @matter.id, matter_user_id: @matter_user.id
+      end
+
+      it '案件詳細画面にリダイレクトされること' do
+        expect(response).to redirect_to(matter_path(@matter))
+      end
+
+      it '削除完了メッセージが表示されること' do
+        expect(flash[:notice]).to eq('参加者を削除しました。')
+      end
+    end
+
+    context '失敗するとき' do
+      before(:each) do
+        allow(Matter).to receive_message_chain(:where, :first).and_return @matter
+
+        expect(MatterUser).to receive(:find_by_id).and_return @matter_user
+        expect(@matter_user).to receive(:destroy).and_raise
+
+        delete :remove_user, id: @matter.id, matter_user_id: @matter_user.id
+      end
+
+      it '案件詳細画面に遷移すること' do
+        expect(response).to redirect_to(matter_path(@matter))
+      end
+
+      it { expect(flash[:alert]).to eq('参加者の削除に失敗しました。') }
+    end
+
+    context '存在しない参加者のを指定するとき' do
+      before(:each) do
+        allow(Matter).to receive_message_chain(:where, :first).and_return @matter
+
+        expect(MatterUser).to receive(:find_by_id).and_return nil
+
+        delete :remove_user, id: @matter.id, matter_user_id: @matter_user.id
+      end
+
+      it '案件詳細画面に遷移すること' do
+        expect(response).to redirect_to(matter_path(@matter))
+      end
+
+      it { expect(flash[:alert]).to eq('対象の参加者が見つかりません。') }
     end
   end
 end
