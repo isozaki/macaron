@@ -22,7 +22,7 @@
   <div class="list">
   <div class="search_area">
     検索条件
-    <%= form_tag(users_path, method: :get) do %>
+    <%= form_tag(new_user_matter_path(@matter), method: :get) do %>
       氏名：
       <%= text_field_tag(:name, params[:name], style: "width:150px;") %>
       氏名(カナ)：
@@ -32,7 +32,7 @@
     <% end %>
   </div>
     <div class="list_area"> 
-      検索結果
+      利用者一覧
       <table>
         <thead>
           <tr>
