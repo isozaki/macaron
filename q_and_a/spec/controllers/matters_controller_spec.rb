@@ -21,6 +21,7 @@ RSpec.describe MattersController, :type => :controller do
 
   describe "GET show" do
     before(:each) do
+      allow(controller).to receive(:check_admin).and_return true
       @matter = mock_model(Matter)
       @matters = [@matter]
     end
@@ -79,6 +80,7 @@ RSpec.describe MattersController, :type => :controller do
 
   describe "GET new" do
     before(:each) do
+      allow(controller).to receive(:check_admin).and_return true
       @matter = mock_model(Matter)
       expect(Matter).to receive(:new).and_return(@matter)
 
@@ -96,6 +98,7 @@ RSpec.describe MattersController, :type => :controller do
 
   describe "POST create" do
     before(:each) do
+      allow(controller).to receive(:check_admin).and_return true
       @matter = mock_model(Matter)
 
       allow(Matter).to receive(:new).and_return(@matter)
@@ -133,6 +136,7 @@ RSpec.describe MattersController, :type => :controller do
 
   describe "GET edit" do
     before(:each) do
+      allow(controller).to receive(:check_admin).and_return true
       @matter = mock_model(Matter, id: 1)
       @matters = []
     end
@@ -186,6 +190,7 @@ RSpec.describe MattersController, :type => :controller do
 
   describe "PATCH update" do
     before(:each) do
+      allow(controller).to receive(:check_admin).and_return true
       @matter = mock_model(Matter, id: 1)
     end
 
@@ -250,6 +255,7 @@ RSpec.describe MattersController, :type => :controller do
 
   describe 'DELETE destroy' do
     before(:each) do
+      allow(controller).to receive(:check_admin).and_return true
       @matter = mock_model(Matter, id: 1)
     end
 
@@ -287,6 +293,7 @@ RSpec.describe MattersController, :type => :controller do
 
   describe 'POST add_user' do
     before(:each) do
+      allow(controller).to receive(:check_admin).and_return true
       @user1 = mock_model(User, id: 1)
       @user2 = mock_model(User, id: 2)
       @matter = mock_model(Matter, id: 1)
@@ -357,6 +364,7 @@ RSpec.describe MattersController, :type => :controller do
 
   describe 'GET new_user' do
     before(:each) do
+      allow(controller).to receive(:check_admin).and_return true
       @matter = mock_model(Matter, id: 1)
       @user = mock_model(User, id: 1)
       @users = [ @user ]
@@ -379,6 +387,7 @@ RSpec.describe MattersController, :type => :controller do
 
   describe 'DELETE remove_user' do
     before(:each) do
+      allow(controller).to receive(:check_admin).and_return true
       @matter = mock_model(Matter, id: 1)
       @user = mock_model(User, id:1)
       @matter_user = mock_model(MatterUser, matter: @matter, user: @user)

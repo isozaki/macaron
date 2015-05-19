@@ -1,4 +1,6 @@
 class MattersController < ApplicationController
+  before_action :check_admin, except: [:index]
+
   def index
     @matters = Matter.search_matter(params)
   end

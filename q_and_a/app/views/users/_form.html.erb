@@ -21,7 +21,7 @@
       <td><%= f.password_field(:password_confirmation) %></td>
     </tr>
     <% if session[:user_id] %>
-      <% if check_login && check_admin %>
+      <% if check_login && admin %>
         <tr>
           <td>管理者権限</td>
           <td>
