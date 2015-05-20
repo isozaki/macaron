@@ -5,5 +5,6 @@ FactoryGirl.define do
     login 'login'
     password 'password'
     deleted 0
+    admin true
   end
 end

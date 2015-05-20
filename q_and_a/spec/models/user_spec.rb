@@ -23,7 +23,7 @@ RSpec.describe User, :type => :model do
         name_kana: 'テストタロウ',
         login: 'login',
         password: 'password',
-        admin: 1
+        admin: true
       }
     end
 

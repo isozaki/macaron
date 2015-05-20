@@ -27,11 +27,11 @@ class ApplicationController < ActionController::Base
   end
 
   def admin
-    @logined_user.admin == 1
+    @logined_user.admin
   end
 
   def check_admin
-    if @logined_user.admin == 1
+    if @logined_user.admin
       true
     else
       redirect_to(menus_path, alert: 'アクセス権限がありません。')

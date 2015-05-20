@@ -1,7 +1,7 @@
 <%= render 'layouts/alerts', notice: notice, alert: alert %>
 
 <div id="matter_index">
-  <h2>案件一覧</h2></ br>
+  <h2>案件一覧</h2>
   <% if session[:user_id] %>
     <% if check_login && admin %>
       <h3><%= link_to('新規登録', new_matter_url, class: 'btn')%></h3>

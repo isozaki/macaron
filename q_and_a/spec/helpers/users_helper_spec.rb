@@ -14,7 +14,7 @@ RSpec.describe UsersHelper, :type => :helper do
   describe 'admin_name' do
     context 'adminが0のとき' do
       before(:each) do
-        @user = mock_model(User, admin: 0)
+        @user = mock_model(User, admin: false)
         @admin = @user.admin
       end
 
@@ -23,7 +23,7 @@ RSpec.describe UsersHelper, :type => :helper do
 
     context 'adminが1のとき' do
       before(:each) do
-        @user = mock_model(User, admin: 1)
+        @user = mock_model(User, admin: true)
         @admin = @user.admin
       end
 

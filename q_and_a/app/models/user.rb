@@ -15,8 +15,8 @@
 
 class User < ActiveRecord::Base
   ADMIN = {
-    none: 0,
-    admin: 1
+    none: false,
+    admin: true
   }
 
   has_secure_password
@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
   validates(:login, presence: true, on: :create, uniqueness: true, length: { maximum: 255 }, format: { with: /\A[a-zA-Z0-9]+\z/i })
   validates(:password, presence: true, on: :create, length: { maximum: 16, minimum: 4 }, confirmation: true,
             format: { with: /\A[a-zA-Z0-9]+\z/i })
-  validates(:admin, presence: true)
+  validates(:admin, inclusion: { in: [true, false] })
 
   has_many(:matter_users)
 
