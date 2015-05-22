@@ -14,6 +14,7 @@ user1 = FactoryGirl.create(:user,
                           )
 
 question1 = FactoryGirl.create(:question,
+                               matter_id: 1,
                                title: 'テスト質問',
                                question: 'テスト質問内容',
                                charge: 'テスト次郎',
@@ -24,6 +25,7 @@ question1 = FactoryGirl.create(:question,
                               )
 
 question2 = FactoryGirl.create(:question,
+                               matter_id: 1,
                                title: '質問B',
                                question: '質問内容B',
                                charge: 'テスト太郎',

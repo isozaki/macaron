@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   def index
-    @questions = Question.search_question(params)
+    @questions = Question.where(matter_id: params[:matter_id]).search_question(params)
   end
 
   def show
@@ -19,6 +19,7 @@ class QuestionsController < ApplicationController
   end
 
   def new
+    @matter = Matter.where(id: params[:matter_id]).first
     @question = Question.new
   end
 
@@ -131,7 +132,7 @@ class QuestionsController < ApplicationController
 
     params.require(:question).permit(
       :title, :question, :charge, :priority, :status, :limit_datetime, :created_user_name,
-      :updated_user_name
+      :updated_user_name, :matter_id
     )
   end
 

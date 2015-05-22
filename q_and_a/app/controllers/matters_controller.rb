@@ -128,4 +128,7 @@ class MattersController < ApplicationController
   rescue => e
     redirect_to(matter_path(@matter), alert: '参加者の削除に失敗しました。')
   end
+
+  def menu
+  end
 end

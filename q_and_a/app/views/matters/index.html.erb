@@ -30,7 +30,7 @@
       <% @matters.each do |matter| %>
         <tr>
           <td style="width: 20px;"><%= matter.id %></td>
-          <td style="width: 300px;"><%= matter.title %></td>
+          <td style="width: 300px;"><%= link_to("#{matter.title}", menu_matter_path(matter)) %></td>
           <td style="width: 150px;">
             <% if session[:user_id] %>
               <% if check_login && admin %>

@@ -27,6 +27,7 @@ Rails.application.routes.draw do
       post :add_user
       get :new_user
       delete :remove_user
+      get :menu
     end
   end
 
