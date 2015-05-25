@@ -19,12 +19,12 @@ class QuestionsController < ApplicationController
   end
 
   def new
-    @matter = Matter.where(id: params[:matter_id]).first
     @question = Question.new
   end
 
   def create
     @question = Question.new(question_params)
+    @question.matter_id = params[:matter_id]
     @question.created_user_name = logined_user.name
     @question.updated_user_name = logined_user.name
     
@@ -127,15 +127,6 @@ class QuestionsController < ApplicationController
     render(:edit)
   end
 
-  def question_params
-    return {} if params[:question].blank?
-
-    params.require(:question).permit(
-      :title, :question, :charge, :priority, :status, :limit_datetime, :created_user_name,
-      :updated_user_name, :matter_id
-    )
-  end
-
   def q_and_a_download
     ActiveRecord::Base.transaction do
       path = File.join(Dir.tmpdir, Time.now.to_i.to_s + '_q_and_a.csv')
@@ -145,5 +136,14 @@ class QuestionsController < ApplicationController
     end
   rescue => e
     redirect_to(questions_url, alert: 'ダウンロードに失敗しました')
+  end
+
+  def question_params
+    return {} if params[:question].blank?
+
+    params.require(:question).permit(
+      :matter_id, :title, :question, :charge, :priority, :status, :limit_datetime, :created_user_name,
+      :updated_user_name
+    )
   end
 end

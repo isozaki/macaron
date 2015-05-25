@@ -6,7 +6,8 @@
     <%= form_for(@question, url: questions_path, method: :post) do |f| %>
       <%= render('form', f: f) %>
       <div class="action">
-        <%= link_to('戻る', questions_path, class: 'btn') %>
+        <%= hidden_field_tag(:matter_id, params[:matter_id])%>
+        <%= link_to('戻る', controller: 'questions', action: 'index', matter_id: params[:matter_id]) %>
         <%= submit_tag('登録', class: 'btn', data: { confirm: "入力した内容を登録します。\nよろしいですか？" }) %>
       </div>
     <% end %>
