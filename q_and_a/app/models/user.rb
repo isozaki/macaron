@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
   validates(:admin, inclusion: { in: [true, false] })
 
   has_many(:matter_users)
+  has_many(:matters, through: :matter_users)
 
   def self.search_user(params)
     params[:page] ||= 1
