@@ -2,7 +2,11 @@ class MattersController < ApplicationController
   before_action :check_admin, except: [:index]
 
   def index
-    @matters = Matter.search_matter(params)
+    if logined_user.admin
+      @matters = Matter.search_matter(params)
+    else
+      @matters = logined_user.matters.search_matter(params)
+    end
   end
 
   def show

@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :matter do
-    title "MyString"
-    deleted 1
+    title "タイトル"
+    deleted 0
   end
 end

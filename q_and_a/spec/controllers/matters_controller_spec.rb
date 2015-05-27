@@ -6,17 +6,38 @@ RSpec.describe MattersController, :type => :controller do
   end
 
   describe "GET index" do
-    before(:each) do
-      @matters = double
-      expect(Matter).to receive(:search_matter)
-        .with(hash_including('title' => 'タイトル'))
-        .and_return @matters
+    context 'ログインしている利用者が管理者の場合' do
+      before(:each) do
+        @logined_user = logined_by(mock_logined_user)
+        @matters = double
+        expect(Matter).to receive(:search_matter)
+          .with(hash_including('title' => 'タイトル'))
+          .and_return @matters
 
-      get :index, title: 'タイトル'
+        get :index, title: 'タイトル'
+      end
+
+      it { expect(response).to render_template(:index) }
+      it { expect(assigns(:matters)).to eq @matters }
     end
 
-    it { expect(response).to render_template(:index) }
-    it { expect(assigns(:matters)).to eq @matters }
+    context 'ログインしているユーザが管理者でない場合' do
+      before(:each) do
+        @logined_user = FactoryGirl.create(:user, admin: false)
+        @matter = FactoryGirl.create(:matter, id: 1)
+        @matters = [@matter]
+        @matter_user = FactoryGirl.create(:matter_user, user_id: @logined_user.id, matter_id: @matter.id)
+        @matter_users = [@matter_user]
+        allow(@logined_user.matters).to receive(:search_matter)
+          .with(hash_including('title' => 'タイトル'))
+          .and_return @matters
+
+        get :index, title: 'タイトル'
+      end
+
+      it { expect(response).to render_template(:index) }
+      it { expect(assigns(:matters)).to eq @matters }
+    end
   end
 
   describe "GET show" do

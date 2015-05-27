@@ -4,7 +4,8 @@ def mock_logined_user(opts = {})
     name: 'テスト利用者',
     name_kana: 'テストリヨウシャ',
     login: 'test',
-    password: 'password'
+    password: 'password',
+    admin: true
   }
   default_opts.merge(opts)
 
