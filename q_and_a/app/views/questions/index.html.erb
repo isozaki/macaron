@@ -2,7 +2,7 @@
 
 <div id="question_index">
   <h2>質問一覧</h2></ br>
-  <h3><%= link_to('新規登録', controller: 'questions', action: 'new', matter_id: params[:matter_id])%></h3>
+  <h3><%= link_to('新規登録', new_question_url(matter_id: params[:matter_id]), class: 'btn')%></h3>
   <div class="search_area">
     検索条件
     <%= form_tag(questions_path, method: :get) do %>

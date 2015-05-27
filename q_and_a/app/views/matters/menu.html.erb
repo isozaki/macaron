@@ -3,6 +3,6 @@
 <h2>質問管理メニュー</h2>
 <div id="link">
   <h2>メニュー</h2>
-  <%= link_to('新規登録', controller: 'questions', action: 'new', matter_id: params[:id]) %><br />
-  <%= link_to('質問一覧', controller: 'questions', action: 'index', matter_id: params[:id]) %>
+  <%= link_to('新規登録', new_question_url(matter_id: params[:id])) %><br />
+  <%= link_to('質問一覧', questions_url(matter_id: params[:id])) %>
 </div>

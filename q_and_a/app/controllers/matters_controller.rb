@@ -1,5 +1,5 @@
 class MattersController < ApplicationController
-  before_action :check_admin, except: [:index]
+  before_action :check_admin, except: [:index, :menu]
 
   def index
     if logined_user.admin

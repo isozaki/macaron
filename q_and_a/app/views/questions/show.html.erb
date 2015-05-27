@@ -106,5 +106,5 @@
       </table>
     </div>
   <% end %>
-  <%= link_to('戻る', controller: 'questions', action: 'index', matter_id: @question.matter.id) %>
+  <%= link_to('戻る', questions_path(matter_id: @question.matter.id)) %>
 </div>
