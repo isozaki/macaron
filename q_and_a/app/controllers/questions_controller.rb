@@ -130,7 +130,8 @@ class QuestionsController < ApplicationController
   def q_and_a_download
     ActiveRecord::Base.transaction do
       path = File.join(Dir.tmpdir, Time.now.to_i.to_s + '_q_and_a.csv')
-      Answer.generate_q_and_a_file(path)
+      matter_id = params[:matter_id]
+      Answer.generate_q_and_a_file(path, matter_id)
 
       send_file(path, filename: "q_and_a_#{Time.now.strftime('%Y%m%d')}.csv")
     end

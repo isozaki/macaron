@@ -60,7 +60,7 @@
   </div>
   <div class="download-area">
     <%= link_to('全件ダウンロード',
-                q_and_a_download_questions_path,
+                q_and_a_download_questions_path(matter_id: params[:matter_id]),
                 class: 'btn',
                 data: { confirm: "質問管理表ファイルをダウンロードします。\nよろしいですか？" }) %>
   </div>
