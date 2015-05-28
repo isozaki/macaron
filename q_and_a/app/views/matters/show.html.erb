@@ -31,7 +31,7 @@
           <td style="width: 100px;"><%= matter_user.user.name %></td>
           <td style="width: 100px;"><%= matter_user.user.name_kana %></td>
           <td style="width: 100px;">
-            <%= link_to("削除", remove_user_matter_path(:id => @matter, :matter_user_id => matter_user.id), :data => {:method => "delete", :confirm => "参加者を削除します。\nよろしいですか？"}) %>
+            <%= link_to('削除', remove_user_matter_path(id: @matter, matter_user_id: matter_user.id), data: {method: 'delete', confirm: "参加者を削除します。\nよろしいですか？"}, class: 'btn') %>
           </td>
         <tr>
       <% end %>

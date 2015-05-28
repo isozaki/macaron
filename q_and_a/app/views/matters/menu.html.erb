@@ -1,8 +1,10 @@
 <%= render 'layouts/alerts', notice: notice, alert: alert %>
 
-<h2>質問管理メニュー</h2>
-<div id="link">
-  <h2>メニュー</h2>
-  <%= link_to('新規登録', new_question_url(matter_id: params[:id])) %><br />
-  <%= link_to('質問一覧', questions_url(matter_id: params[:id])) %>
+<div id='q-menu'>
+  <h2>質問管理メニュー</h2>
+  <div id="link">
+    <h2>メニュー</h2>
+    <%= link_to('新規登録', new_question_url(matter_id: params[:id])) %><br />
+    <%= link_to('質問一覧', questions_url(matter_id: params[:id])) %>
+  </div>
 </div>
