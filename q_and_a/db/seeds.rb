@@ -10,11 +10,15 @@ user1 = FactoryGirl.create(:user,
                            name_kana: 'テストタロウ',
                            login: 'login',
                            password: 'password',
-                           admin: 1
+                           admin: true
                           )
 
+matter1 = FactoryGirl.create(:matter,
+                             title: 'テスト案件A'
+                            )
+
 question1 = FactoryGirl.create(:question,
-                               matter_id: 1,
+                               matter_id: matter1.id,
                                title: 'テスト質問',
                                question: 'テスト質問内容',
                                charge: 'テスト次郎',
@@ -25,7 +29,7 @@ question1 = FactoryGirl.create(:question,
                               )
 
 question2 = FactoryGirl.create(:question,
-                               matter_id: 1,
+                               matter_id: matter1.id,
                                title: '質問B',
                                question: '質問内容B',
                                charge: 'テスト太郎',
@@ -36,13 +40,9 @@ question2 = FactoryGirl.create(:question,
                               )
 
 answer1 = FactoryGirl.create(:answer,
-                             question_id: 1,
+                             question_id: question1.id,
                              answer: 'テスト回答内容',
                              created_user_name: 'テスト次郎'
-                            )
-
-matter1 = FactoryGirl.create(:matter,
-                             title: 'テスト案件A'
                             )
 
 matter_user = FactoryGirl.create(:matter_user,
