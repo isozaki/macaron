@@ -40,3 +40,12 @@ answer1 = FactoryGirl.create(:answer,
                              answer: 'テスト回答内容',
                              created_user_name: 'テスト次郎'
                             )
+
+matter1 = FactoryGirl.create(:matter,
+                             title: 'テスト案件A'
+                            )
+
+matter_user = FactoryGirl.create(:matter_user,
+                                 matter_id: matter1.id,
+                                 user_id: user1.id
+                                )
