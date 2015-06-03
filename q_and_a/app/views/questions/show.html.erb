@@ -106,5 +106,8 @@
       </table>
     </div>
   <% end %>
+  <div class='pdf-area'>
+    <%= link_to('PDF出力', pdf_question_path(@question, format: 'pdf'), class: 'btn') %>
+  </div>
   <%= link_to('戻る', questions_path(matter_id: @question.matter.id)) %>
 </div>

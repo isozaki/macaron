@@ -153,7 +153,12 @@ GEM
       daemon_controller (>= 1.2.0)
       rack
       rake (>= 0.8.1)
+    pdf-core (0.5.1)
     powerpack (0.0.9)
+    prawn (2.0.1)
+      pdf-core (~> 0.5.1)
+      ttfunk (~> 1.4.0)
+    prawn-table (0.2.1)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -267,6 +272,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
+    ttfunk (1.4.0)
     twitter-bootstrap-rails (2.2.8)
       actionpack (>= 3.1)
       execjs
@@ -312,6 +318,8 @@ DEPENDENCIES
   libv8 (= 3.16.14.3)
   mysql2
   passenger
+  prawn
+  prawn-table
   pry-byebug
   pry-coolline
   pry-rails

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :questions do
     member do
       get :edit_status
+      get :pdf
       patch :update_status
     end
 

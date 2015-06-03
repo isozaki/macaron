@@ -139,6 +139,15 @@ class QuestionsController < ApplicationController
     redirect_to(questions_url, alert: 'ダウンロードに失敗しました')
   end
 
+  def pdf
+    question = Question.where(id: params[:id]).first
+    pdf = QuestionPdf.new(question)
+    send_data pdf.render,
+      filename: "question#{params[:id]}.pdf",
+      type: 'application/pdf',
+      disposition: 'inline'
+  end
+
   def question_params
     return {} if params[:question].blank?
 
