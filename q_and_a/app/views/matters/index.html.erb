@@ -27,9 +27,9 @@
         </tr>
       </thead>
       <tbody>
-      <% @matters.each do |matter| %>
+      <% @matters.each_with_index do |matter, i| %>
         <tr>
-          <td style="width: 20px;"><%= matter.id %></td>
+          <td style="width: 20px;"><%= i + 1 %></td>
           <td style="width: 300px;"><%= link_to("#{matter.title}", menu_matter_path(matter)) %></td>
           <td style="width: 150px;">
             <% if session[:user_id] %>

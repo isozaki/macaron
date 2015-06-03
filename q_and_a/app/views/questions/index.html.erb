@@ -38,9 +38,9 @@
         </tr>
       </thead>
       <tbody>
-      <% @questions.each do |question| %>
+      <% @questions.each_with_index do |question, i| %>
         <tr>
-          <td style="width: 20px;"><%= question.id %></td>
+          <td style="width: 20px;"><%= i + 1 %></td>
           <td style="width: 300px;"><%= question.title %></td>
           <td style="width: 100px;" ><%= question.charge %></td>
           <td style="width: 50px;"><%= priority_name(question.priority) %></td>

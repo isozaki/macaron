@@ -75,9 +75,9 @@
           </tr>
         </thead>
         <tbody>
-        <% @answers.each do |answer| %>
+        <% @answers.each_with_index do |answer, i| %>
           <tr>
-            <td style="width:20px;"><%= answer.id %></td>
+            <td style="width:20px;"><%= i + 1 %></td>
             <td style="width:300px;text-align:left;"><%= simple_format(answer.answer) %></td>
             <td style="width:100px;" ><%= answer.created_user_name %></td>
             <td style="width:100px;"><%= answer.created_at.strftime('%Y/%m/%d') %></td>
