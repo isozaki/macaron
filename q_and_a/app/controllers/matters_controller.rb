@@ -93,13 +93,13 @@ class MattersController < ApplicationController
   end
 
   def add_user
-    @matter = Matter.where('id = ?', params[:id]).first
+    @matter = Matter.where(id: params[:id]).first
     unless @matter
       redirect_to(matters_path, alert: '対象の案件が見つかりません。')
       return
     end
 
-    @user = User.where('id = ?', params[:user_id]).first
+    @user = User.where(id: params[:user_id]).first
     unless @user
       redirect_to(new_user_matter_url(@matter), alert: '対象の参加者が見つかりません。')
       return
@@ -111,13 +111,13 @@ class MattersController < ApplicationController
   end
 
   def new_user
-    @matter = Matter.where('id = ?', params[:id]).first
+    @matter = Matter.where(id: params[:id]).first
     @matter_user = MatterUser.new
     @users = User.search_user(params)
   end
 
   def remove_user
-    @matter = Matter.where('id = ?', params[:id]).first
+    @matter = Matter.where(id: params[:id]).first
     @matter_user = MatterUser.find_by_id(params[:matter_user_id])
     unless @matter_user
       redirect_to(matter_path(@matter), alert: '対象の参加者が見つかりません。')
