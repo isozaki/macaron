@@ -328,7 +328,7 @@ RSpec.describe MattersController, :type => :controller do
       before(:each) do
         allow(Matter).to receive_message_chain(:where, :first).and_return @matter
 
-        expect(User).to receive(:where).with('id = ?', '1').and_return @users
+        expect(User).to receive(:where).with(id: '1').and_return @users
         expect(@users).to receive(:first).and_return @user1
 
         expect(MatterUser).to receive(:new)
@@ -351,7 +351,7 @@ RSpec.describe MattersController, :type => :controller do
     context '存在しない利用者を指定するとき' do
       before(:each) do
         allow(Matter).to receive_message_chain(:where, :first).and_return @matter
-        expect(User).to receive(:where).with('id = ?', '1').and_return @users
+        expect(User).to receive(:where).with(id: '1').and_return @users
         expect(@users).to receive(:first).and_return nil
 
         post :add_user, id: @matter.id, user_id: @user1.id
