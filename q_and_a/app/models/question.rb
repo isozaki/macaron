@@ -32,6 +32,7 @@ class Question < ActiveRecord::Base
     dismissal: 6
   }
 
+  validates(:matter_id, presence: true)
   validates(:title, presence: true, length: { maximum: 40 })
   validates(:question, presence: true)
   validates(:charge, presence: true, length: { maximum: 64 })
@@ -43,6 +44,7 @@ class Question < ActiveRecord::Base
 
   has_many(:answers, -> { where(deleted: 0) })
   has_one(:question_attachment)
+  belongs_to(:matter)
 
   def self.search_question(params)
     params[:page] ||= 1

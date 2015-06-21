@@ -24,7 +24,7 @@ class Answer < ActiveRecord::Base
   belongs_to(:question)
 
   # 質問管理表ファイル生成処理
-  def self.generate_q_and_a_file(file_path)
+  def self.generate_q_and_a_file(file_path, matter_id)
     FileUtils.mkdir_p(File.dirname(file_path))
 
     File.open(file_path, 'wb') do |f|
@@ -35,10 +35,13 @@ class Answer < ActiveRecord::Base
 
       f.write(headers_line)
 
-      Answer.order('question_id ASC', 'id ASC').lock.all.each do |qa|
-        csv_line = qa.generate_q_and_a_line
-        csv_line = csv_line.encode('Windows-31j', 'UTF-8') rescue raise('不正な文字が入力されました。')
-        f.write(csv_line)
+      matter = Matter.where(id: matter_id).first
+      matter.questions.each do |question|
+        question.answers.order('question_id ASC', 'id ASC').lock.all.each do |qa|
+          csv_line = qa.generate_q_and_a_line
+          csv_line = csv_line.encode('Windows-31j', 'UTF-8') rescue raise('不正な文字が入力されました。')
+          f.write(csv_line)
+        end
       end
     end
   end

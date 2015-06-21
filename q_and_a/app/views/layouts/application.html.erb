@@ -12,6 +12,9 @@
   </div>
   <div id="logout-btn">
     <% if session[:user_id] %>
+      <% if check_login %>
+        利用者：<%= logined_user.name %>
+      <% end %>
       <%= link_to('ログアウト', session_path, method: 'delete', class: 'btn') %>
     <% end %>
   </div>

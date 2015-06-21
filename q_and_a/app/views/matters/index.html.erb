@@ -1,0 +1,50 @@
+<%= render 'layouts/alerts', notice: notice, alert: alert %>
+
+<div id="matter_index">
+  <h2>案件一覧</h2>
+  <% if session[:user_id] %>
+    <% if check_login && admin %>
+      <h3><%= link_to('新規登録', new_matter_url, class: 'btn')%></h3>
+    <% end %>
+  <% end %>
+  <div class="search_area">
+    検索条件
+    <%= form_tag(matters_path, method: :get) do %>
+      タイトル：
+      <%= text_field_tag(:title, params[:title], style: "width:200px;") %>
+      <%= submit_tag('検索', class: 'btn') %>
+      <%= button_tag('リセット', type: :reset, class: 'btn') %>
+    <% end %>
+  </div>
+  <div class="list_area"> 
+    検索結果
+    <table>
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>タイトル</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% @matters.each_with_index do |matter, i| %>
+        <tr>
+          <td style="width: 20px;"><%= i + 1 %></td>
+          <td style="width: 300px;"><%= link_to("#{matter.title}", menu_matter_path(matter)) %></td>
+          <td style="width: 150px;">
+            <% if session[:user_id] %>
+              <% if check_login && admin %>
+                <%= form_for(matter, url: matter_path(matter), method: 'delete') do |f| %>
+                  <%= link_to('詳細', matter_path(matter), class: 'btn') %> ｜
+                  <%= f.submit('削除', class: 'btn', data: { confirm: "案件を削除します。\nよろしいですか？" }) %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </td>
+        <tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+  <%= link_to('戻る', menus_url) %>
+</div>

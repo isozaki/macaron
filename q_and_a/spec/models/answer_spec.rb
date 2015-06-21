@@ -115,7 +115,8 @@ end
 
 describe Answer, 'CSVの内容について' do
   it '正しいデータが生成されること' do
-    @question = FactoryGirl.create(:question)
+    @matter = FactoryGirl.create(:matter)
+    @question = FactoryGirl.create(:question, matter_id: @matter.id)
     @answer = FactoryGirl.create(:answer, question_id: @question.id)
 
     expect(@answer.generate_q_and_a_line).to eq(CSV.generate_line([
@@ -137,7 +138,10 @@ end
 
 describe Answer, 'CSVダウンロード処理について' do
   before(:each) do
-    @question = FactoryGirl.create(:question)
+    @matter = FactoryGirl.create(:matter)
+    allow(Matter).to receive_message_chain(:where, :first).and_return(@matter)
+    @question = FactoryGirl.create(:question, matter_id: @matter.id)
+    allow(@matter.questions).to receive(:each).and_return([@question])
     @undownloaded = Answer.new(FactoryGirl.attributes_for(
       :answer,
       question_id: @question.id
@@ -159,7 +163,7 @@ describe Answer, 'CSVダウンロード処理について' do
 
   context 'ファイルの生成に成功するとき' do
     before(:each) do
-      Answer.generate_q_and_a_file(@file_path)
+      Answer.generate_q_and_a_file(@file_path, @matter.id)
     end
 
     it 'ファイルが存在すること' do
@@ -174,7 +178,7 @@ describe Answer, 'CSVダウンロード処理について' do
 
     it 'ファイルが存在しないこと' do
       expect do
-        Answer.generate_q_and_a_file(@file_path)
+        Answer.generate_q_and_a_file(@file_path, @matter.id)
       end.to raise_error
 
       expect(File.exist?(@file_path)).to be_falsey

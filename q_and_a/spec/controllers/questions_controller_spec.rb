@@ -92,8 +92,10 @@ RSpec.describe QuestionsController, :type => :controller do
 
   describe "POST create" do
     before(:each) do
-      @question = mock_model(Question)
+      @matter = mock_model(Matter)
+      allow(Matter).to receive(:where).with(id: '1').and_return @matter
 
+      @question = mock_model(Question)
       allow(Question).to receive(:new).and_return(@question)
     end
 
@@ -104,10 +106,11 @@ RSpec.describe QuestionsController, :type => :controller do
           'question' => '質問',
           'charge' => '担当者',
           'priority' => Question::PRIORITY[:mid].to_s,
-          'limit_datetime' => 1.days.since.strftime('%Y%m%d'),
+          'limit_datetime' => 1.days.since.strftime('%Y%m%d')
         ).and_return(@question)
         expect(@question).to receive(:created_user_name=).with(@logined_user.name)
         expect(@question).to receive(:updated_user_name=).with(@logined_user.name)
+        expect(@question).to receive(:matter_id=).with(@matter.id.to_s)
         expect(@question).to receive(:save!)
 
         post :create, question: {
@@ -115,8 +118,8 @@ RSpec.describe QuestionsController, :type => :controller do
           'question' => '質問',
           'charge' => '担当者',
           'priority' => Question::PRIORITY[:mid].to_s,
-          'limit_datetime' => 1.days.since.strftime('%Y%m%d'),
-        }
+          'limit_datetime' => 1.days.since.strftime('%Y%m%d')
+        },'matter_id' => @matter.id
       end
 
       it 'showにリダイレクトされること' do
@@ -133,8 +136,9 @@ RSpec.describe QuestionsController, :type => :controller do
         expect(@question).to receive(:valid?).and_return false
         expect(@question).to receive(:created_user_name=).with(@logined_user.name)
         expect(@question).to receive(:updated_user_name=).with(@logined_user.name)
+        expect(@question).to receive(:matter_id=).with(@matter.id.to_s)
 
-        post :create, question: { title: 'タイトル' }
+        post :create, question: { title: 'タイトル' }, 'matter_id' => @matter.id
       end
 
       it 'newを再描画すること' do

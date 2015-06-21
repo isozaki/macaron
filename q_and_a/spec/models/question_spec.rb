@@ -21,6 +21,7 @@ require 'rails_helper'
 describe Question, '検証について' do
   def valid_attributes
     {
+      matter_id: 1,
       title: 'タイトル',
       question: '質問',
       charge: '担当者',
@@ -40,6 +41,20 @@ describe Question, '検証について' do
 
   describe '正しい値をセットするとき' do
     it { is_expected.to be_valid }
+  end
+
+  describe 'matter_id' do
+    context 'nilが指定されるとき' do
+      before(:each) { subject.matter_id = nil } 
+
+      it { is_expected.not_to be_valid }
+    end
+
+    context 'ブランクが指定されるとき' do
+      before(:each) { subject.matter_id = '' }
+
+      it { is_expected.not_to be_valid }
+    end
   end
 
   describe 'title' do

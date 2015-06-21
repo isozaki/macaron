@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   def index
-    @questions = Question.search_question(params)
+    @questions = Question.where(matter_id: params[:matter_id]).search_question(params)
   end
 
   def show
@@ -24,6 +24,7 @@ class QuestionsController < ApplicationController
 
   def create
     @question = Question.new(question_params)
+    @question.matter_id = params[:matter_id]
     @question.created_user_name = logined_user.name
     @question.updated_user_name = logined_user.name
     
@@ -126,23 +127,33 @@ class QuestionsController < ApplicationController
     render(:edit)
   end
 
-  def question_params
-    return {} if params[:question].blank?
-
-    params.require(:question).permit(
-      :title, :question, :charge, :priority, :status, :limit_datetime, :created_user_name,
-      :updated_user_name
-    )
-  end
-
   def q_and_a_download
     ActiveRecord::Base.transaction do
       path = File.join(Dir.tmpdir, Time.now.to_i.to_s + '_q_and_a.csv')
-      Answer.generate_q_and_a_file(path)
+      matter_id = params[:matter_id]
+      Answer.generate_q_and_a_file(path, matter_id)
 
       send_file(path, filename: "q_and_a_#{Time.now.strftime('%Y%m%d')}.csv")
     end
   rescue => e
     redirect_to(questions_url, alert: 'ダウンロードに失敗しました')
+  end
+
+  def pdf
+    question = Question.where(id: params[:id]).first
+    pdf = QuestionPdf.new(question)
+    send_data pdf.render,
+      filename: "question#{params[:id]}.pdf",
+      type: 'application/pdf',
+      disposition: 'inline'
+  end
+
+  def question_params
+    return {} if params[:question].blank?
+
+    params.require(:question).permit(
+      :matter_id, :title, :question, :charge, :priority, :status, :limit_datetime, :created_user_name,
+      :updated_user_name
+    )
   end
 end

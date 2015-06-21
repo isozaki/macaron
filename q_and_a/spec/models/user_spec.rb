@@ -2,14 +2,15 @@
 #
 # Table name: users
 #
-#  id         :integer          not null, primary key
-#  name       :string(64)       not null
-#  name_kana  :string(64)       not null
-#  login      :string(255)      not null
-#  password   :string(16)       not null
-#  deleted    :integer          default(0), not null
-#  created_at :datetime
-#  updated_at :datetime
+#  id              :integer          not null, primary key
+#  name            :string(64)       not null
+#  name_kana       :string(64)       not null
+#  login           :string(255)      not null
+#  password_digest :string(255)      not null
+#  deleted         :integer          default(0), not null
+#  created_at      :datetime
+#  updated_at      :datetime
+#  admin           :integer          default(0), not null
 #
 
 require 'rails_helper'
@@ -21,7 +22,8 @@ RSpec.describe User, :type => :model do
         name: 'テスト太郎',
         name_kana: 'テストタロウ',
         login: 'login',
-        password: 'password'
+        password: 'password',
+        admin: true
       }
     end
 
@@ -149,6 +151,20 @@ RSpec.describe User, :type => :model do
 
       context '最大長より長い文字列が指定されたとき' do
         before(:each) { subject.password = 'a' * 17 }
+
+        it { is_expected.not_to be_valid }
+      end
+    end
+
+    describe 'admin' do
+      context 'nilが指定されたとき' do
+        before(:each) { subject.admin = nil }
+
+        it { is_expected.not_to be_valid }
+      end
+
+      context 'brankが指定されたとき' do
+        before(:each) { subject.admin = '' }
 
         it { is_expected.not_to be_valid }
       end

@@ -1,0 +1,7 @@
+development:
+ # PDF出力用の日本語フォントのパス
+ font_path: <%= File.join(Rails.root, 'extras', 'IPAexfont00201', 'ipaexm.ttf') %>
+test:
+ font_path: <%= File.join(Rails.root, 'extras', 'IPAexfont00201', 'ipaexm.ttf') %>
+production:
+ font_path: <%= File.join(Rails.root, 'extras', 'IPAexfont00201', 'ipaexm.ttf') %>

@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
 
   before_action :check_login
 
+  helper_method :logined_user, :check_login, :admin
+
   def check_login
     if session[:user_id]
       begin
@@ -22,5 +24,17 @@ class ApplicationController < ActionController::Base
 
   def logined_user
     @logined_user
+  end
+
+  def admin
+    @logined_user.admin
+  end
+
+  def check_admin
+    if @logined_user.admin
+      true
+    else
+      redirect_to(menus_path, alert: 'アクセス権限がありません。')
+    end
   end
 end

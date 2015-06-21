@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :question do
+    matter_id 1
     title "タイトル1"
     question "質問内容1"
     charge "担当者"

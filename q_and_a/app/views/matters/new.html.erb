@@ -1,0 +1,14 @@
+<%= render 'layouts/alerts', notice: notice, alert: alert %>
+
+<div id="new-matter">
+  <h2>案件新規登録</h2>
+  <div id="form_area">
+    <%= form_for(@matter, url: matters_path, method: :post) do |f| %>
+      <%= render('form', f: f) %>
+      <div class="action">
+        <%= link_to('戻る', matters_path, class: 'btn') %>
+        <%= submit_tag('登録', class: 'btn', data: { confirm: "入力した内容を登録します。\nよろしいですか？" }) %>
+      </div>
+    <% end %>
+  </div>
+</div>

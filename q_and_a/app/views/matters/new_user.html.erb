@@ -1,0 +1,56 @@
+<%= render 'layouts/alerts', notice: notice, alert: alert %>
+
+<div id="add-user">
+  <h2>参加者追加</h2>
+  <div id="form_area">
+    <%= form_tag(add_user_matter_path(@matter), method: :post) do %>
+      <table>
+        <tbody>
+          <tr>
+            参加者として追加する利用者のIDを入力してください。
+            <td>ID</td>
+            <td><%= text_field(:user_id, params[:user_id]) %></td>
+          </tr>
+      </tbody>
+      </table>
+      <div class="action">
+        <%= link_to('戻る', matter_path(@matter), class: 'btn') %>
+        <%= submit_tag('追加', class: 'btn', data: { confirm: "参加者を追加します。\nよろしいですか？" }) %>
+      </div>
+    <% end %>
+  </div>
+  <div class="list">
+  <div class="search_area">
+    検索条件
+    <%= form_tag(new_user_matter_path(@matter), method: :get) do %>
+      氏名：
+      <%= text_field_tag(:name, params[:name], style: "width:150px;") %>
+      氏名(カナ)：
+      <%= text_field_tag(:name_kana, params[:name_kana], style: "width:150px;") %>
+      <%= submit_tag('検索', class: 'btn') %>
+      <%= button_tag('リセット', type: :reset, class: 'btn') %>
+    <% end %>
+  </div>
+    <div class="list_area"> 
+      利用者一覧
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>氏名</th>
+            <th>氏名(カナ)</th>
+          </tr>
+        </thead>
+        <tbody>
+        <% @users.each do |user| %>
+          <tr>
+            <td style="width: 50px;"><%= user.id %></td>
+            <td style="width: 100px;"><%= user.name %></td>
+            <td style="width: 100px;"><%= user.name_kana %></td>
+          <tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

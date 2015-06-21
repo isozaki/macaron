@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_filter :check_login, only: [:new, :create]
+  skip_before_action :check_login, only: [:new, :create]
 
   def index
     @users = User.search_user(params)
@@ -87,6 +87,6 @@ class UsersController < ApplicationController
   def user_params
     return {} if params[:user].blank?
 
-    params.require(:user).permit(:name, :name_kana, :login, :password, :password_confirmation)
+    params.require(:user).permit(:name, :name_kana, :login, :password, :password_confirmation, :admin)
   end
 end

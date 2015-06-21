@@ -7,6 +7,10 @@
     <table>
       <tbody>
         <tr>
+          <td class="title">ID</td>
+          <td><%= @user.id %></td>
+        </tr>
+        <tr>
           <td class="title">氏名</td>
           <td><%= @user.name %></td>
         </tr>
@@ -18,6 +22,10 @@
           <td class="title">ログインID</td>
           <td><%= @user.login %></td>
         </tr>
+        <tr>
+          <td class="title">管理者権限</td>
+          <td><%= admin_name(@user.admin) %></td>
+        <tr>
       </tbody>
     </table>
   </div>

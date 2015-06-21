@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe "questions/show.html.erb", :type => :view do
   before(:each) do
-    @question = FactoryGirl.create(:question)
+    @matter = FactoryGirl.create(:matter)
+    @question = FactoryGirl.create(:question, matter: @matter)
     @answers = mock_model(Answer)
     @question_attachment = mock_model(QuestionAttachment)
     @answer_attachment = mock_model(AnswerAttachment)

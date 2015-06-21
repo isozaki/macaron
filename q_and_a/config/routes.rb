@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :questions do
     member do
       get :edit_status
+      get :pdf
       patch :update_status
     end
 
@@ -21,6 +22,15 @@ Rails.application.routes.draw do
   end
 
   resources :users
+
+  resources :matters do
+    member do
+      post :add_user
+      get :new_user
+      delete :remove_user
+      get :menu
+    end
+  end
 
   root :to => 'sessions#new'
 

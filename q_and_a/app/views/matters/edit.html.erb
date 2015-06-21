@@ -1,0 +1,14 @@
+<%= render 'layouts/alerts', notice: notice, alert: alert %>
+
+<div id="edit-matter">
+  <h2>案件更新</h2>
+  <div id="form_area">
+    <%= form_for(@matter, url: matter_path(@matter), method: :patch) do |f| %>
+      <%= render('form', f: f) %>
+      <div class="action">
+        <%= link_to('戻る', matter_path(@matter), class: 'btn') %>
+        <%= submit_tag('更新', class: 'btn', data: { confirm: "入力した内容を更新します。\nよろしいですか？" }) %>
+      </div>
+    <% end %>
+  </div>
+</div>

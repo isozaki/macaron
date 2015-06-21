@@ -2,7 +2,7 @@
 
 <div id="question_index">
   <h2>質問一覧</h2></ br>
-  <h3><%= link_to('新規登録', new_question_url, class: 'btn')%></h3>
+  <h3><%= link_to('新規登録', new_question_url(matter_id: params[:matter_id]), class: 'btn')%></h3>
   <div class="search_area">
     検索条件
     <%= form_tag(questions_path, method: :get) do %>
@@ -38,9 +38,9 @@
         </tr>
       </thead>
       <tbody>
-      <% @questions.each do |question| %>
+      <% @questions.each_with_index do |question, i| %>
         <tr>
-          <td style="width: 20px;"><%= question.id %></td>
+          <td style="width: 20px;"><%= i + 1 %></td>
           <td style="width: 300px;"><%= question.title %></td>
           <td style="width: 100px;" ><%= question.charge %></td>
           <td style="width: 50px;"><%= priority_name(question.priority) %></td>
@@ -60,7 +60,7 @@
   </div>
   <div class="download-area">
     <%= link_to('全件ダウンロード',
-                q_and_a_download_questions_path,
+                q_and_a_download_questions_path(matter_id: params[:matter_id]),
                 class: 'btn',
                 data: { confirm: "質問管理表ファイルをダウンロードします。\nよろしいですか？" }) %>
   </div>

@@ -1,0 +1,42 @@
+<%= render 'layouts/alerts', notice: notice, alert: alert %>
+
+<div id="matter_show">
+  <h2>案件詳細</h2>
+  <div class="edit-btn"><%= link_to('編集', edit_matter_url(@matter), class: 'btn') %></div>
+  <div class="matter_area">
+    <table>
+      <tbody>
+        <tr>
+          <td class="title">タイトル</td>
+          <td><%= @matter.title %></td>
+        </tr>
+        <tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="add-user">
+    <%= link_to('参加者追加', new_user_matter_path(@matter), class: 'btn') %>
+    <h3>参加者一覧</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>氏名</th>
+          <th>氏名(カナ)</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% @matter_users.each do |matter_user| %>
+        <tr>
+          <td style="width: 100px;"><%= matter_user.user.name %></td>
+          <td style="width: 100px;"><%= matter_user.user.name_kana %></td>
+          <td style="width: 100px;">
+            <%= link_to('削除', remove_user_matter_path(id: @matter, matter_user_id: matter_user.id), data: {method: 'delete', confirm: "参加者を削除します。\nよろしいですか？"}, class: 'btn') %>
+          </td>
+        <tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+  <%= link_to('戻る', matters_path) %>
+</div>
